@@ -79,6 +79,8 @@ function App() {
       })
       .then(response => response.json())
       // ユーザーidをつけるならここで追加
+
+      setLoclist ([]);
       };
     };
 
