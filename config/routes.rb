@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :routes, only: [:index]
       post '/routes', to: 'routes#index'
     end
-    
+
     namespace :v2 do
       resources :station, only: [:index]
     end
