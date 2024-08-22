@@ -10,16 +10,63 @@ function App() {
   }, [])
 
   const [location, setLocation] = useState({latitude: null, longitude: null})
+  const [watchStatus, setWatchStatus] = useState({
+    isWatching: false,
+    watchId: null
+  });
+  const [loclist, setLoclist] = useState([])
 
-  const getLocation = () =>{
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          setLocation({
-            latitude: lat,
-            longitude: lon
-          });
+  // const getLocation = () =>{
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         const lat = position.coords.latitude;
+  //         const lon = position.coords.longitude;
+  //         setLocation({
+  //           latitude: lat,
+  //           longitude: lon
+  //         });
+
+  //     fetch(`${API_BASE_URL}/route`,{
+  //       method : 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         latitude: lat,
+  //         longitude: lon,
+  //       })
+  //     })
+  //     .then(response => response.json())
+  //       }
+  //   )};
+
+    const startWatchPosition = () =>{
+      if (!watchStatus.iswatching){
+      const watchId = navigator.geolocation.watchPosition(position => {   
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        setLocation({
+          latitude: lat,
+          longitude: lon
+        });
+  
+      setWatchStatus({isWatching: true, watchId });
+
+      setLoclist((prevLoclist) => {
+        return [...prevLoclist, 
+        {latitude: lat, longitude: lon}]
+      });
+        }
+      )
+    }
+  };
+
+    const stopWatchPosition = () => {
+    if (watchStatus.isWatching) {
+      navigator.geolocation.clearWatch(watchStatus.watchId);
+      setWatchStatus({isWatching: false, watchId: null });
+
+      console.log(loclist)
 
       fetch(`${API_BASE_URL}/route`,{
         method : 'POST',
@@ -27,17 +74,21 @@ function App() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          latitude: lat,
-          longitude: lon,
+          location : loclist
         })
       })
       .then(response => response.json())
-        }
-    )};
+      // ユーザーidをつけるならここで追加
+
+      setLoclist ([]);
+      };
+    };
 
   return (
     <>
-        <button onClick = {getLocation}>位置情報を取得</button>
+        {/* <button onClick = {getLocation}>位置情報を取得</button> */}
+        <button onClick = {startWatchPosition}>位置情報取得開始</button>
+        <button onClick = {stopWatchPosition}>位置情報取得終了</button>
       <div>
         {location.latitude}
       </div>
