@@ -3,16 +3,21 @@ require 'json'
 
 class Api::V1::RoutesController < ApplicationController
   def index
-    data_arr = params[:_json]
+    if request.post?
+      data_arr = params[:_json]
 
-    from = get_fromstation(data_arr)
-    to = get_tostation(data_arr)
-    inf = {from: from, to: to}
-    if data_arr
-      render json: inf, status: :created
-    else
-      render json: { errors: "error" }, status: :unprocessable_entity
+      from = get_fromstation(data_arr)
+      to = get_tostation(data_arr)
+      inf = {from: from, to: to}
+      if data_arr
+        render json: inf, status: :created
+      else
+        render json: { errors: "error" }, status: :unprocessable_entity
+      end
+    elsif request.get?
+      render json: { errors: "method error" }, status: :bad_request
     end
+
   end
 
   private
@@ -40,6 +45,11 @@ class Api::V1::RoutesController < ApplicationController
     # requestメソッドの引数にNet:HTTP:Responseオブジェクトをあたえます。
     # responseには、HTTPレスポンスが格納されている
     station_data = JSON.parse(response.body)
-    return station_data[0]['odpt:stationTitle']
-  end
+    if station_data.empty?
+      return nil
+      else
+      return station_data[0]['odpt:stationTitle']
+    end
+
+    end
 end
