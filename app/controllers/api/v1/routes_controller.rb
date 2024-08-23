@@ -9,7 +9,7 @@ class Api::V1::RoutesController < ApplicationController
       from = get_fromstation(data_arr)
       to = get_tostation(data_arr)
       inf = {from: from, to: to}
-      if data_arr
+      if inf
         render json: inf, status: :created
       else
         render json: { errors: "error" }, status: :unprocessable_entity
@@ -47,9 +47,8 @@ class Api::V1::RoutesController < ApplicationController
     station_data = JSON.parse(response.body)
     if station_data.empty?
       return nil
-      else
+    else
       return station_data[0]['odpt:stationTitle']
     end
-
-    end
+  end
 end
