@@ -27,6 +27,43 @@ class Api::V2::RoutesController < ApplicationController
 
   private
 
+  def move_distans(coordinates)
+    return _calc_distance(coordinates) / 1000
+  end
+
+  def _calc_distance(latlons)
+    latlons.map! { |latlon| _deg_to_rad(latlon) }
+    distance = (0...latlons.length - 1).inject(0) { |dist, i| dist + _hubeny(latlons[i], latlons[i + 1]) }
+    return distance
+  end
+
+  def _deg_to_rad(latlon)
+    latlon[:longitude] = latlon[:longitude] * Math::PI / 180
+    latlon[:latitude] = latlon[:latitude] * Math::PI / 180
+    return latlon
+  end
+
+  # http://yamadarake.jp/trdi/report000001.html
+  # WGS84 (GPS)
+  def _hubeny(latlng_1, latlng_2)
+    a = 6378137.000
+    b = 6356752.314245
+
+    pow_e = 1 - b ** 2 / a ** 2
+
+    ave = (latlng_1[:longitude] + latlng_2[:longitude]) / 2
+    dp = latlng_1[:longitude] - latlng_2[:longitude]
+    dr = latlng_1[:latitude] - latlng_2[:latitude]
+    sin_ave = Math.sin(ave)
+    cos_ave = Math.cos(ave)
+    w = Math.sqrt(1 - pow_e * sin_ave ** 2)
+    m = a * (1 - pow_e) / w ** 3
+    n = a / w
+
+    distance = Math.sqrt((m * dp) ** 2 + (n * cos_ave * dr) ** 2)
+    return distance
+  end
+
   def get_fromstation(coordinates)
     _get_station(coordinates, 0)
   end
