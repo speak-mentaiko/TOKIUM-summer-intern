@@ -13,7 +13,7 @@ class Api::V2::RoutesController < ApplicationController
       end
       from = get_fromstation(data_arr)
       to = get_tostation(data_arr)
-      cost = getCosts(from , to)
+      #cost = getCosts(from , to)
       inf = {from: from, to: to}
       if inf
         render json: inf, status: :created
