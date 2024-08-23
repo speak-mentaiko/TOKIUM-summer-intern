@@ -1,100 +1,80 @@
-import { useEffect, useState } from 'react'
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
   const API_BASE_URL = 'http://localhost:3000/'
 
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v1/hello`)
-      .then((res) => res.json())
-  }, [])
-
-  const [location, setLocation] = useState({latitude: null, longitude: null})
   const [watchStatus, setWatchStatus] = useState({
     isWatching: false,
-    watchId: null
+    watchId: null,
+    intervalId: null
+  });
+  const [fromTo,setFromTo] = useState({
+    "from": null,
+    "to": null
   });
   const [loclist, setLoclist] = useState([])
-
-  // const getLocation = () =>{
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const lat = position.coords.latitude;
-  //         const lon = position.coords.longitude;
-  //         setLocation({
-  //           latitude: lat,
-  //           longitude: lon
-  //         });
-
-  //     fetch(`${API_BASE_URL}/route`,{
-  //       method : 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         latitude: lat,
-  //         longitude: lon,
-  //       })
-  //     })
-  //     .then(response => response.json())
-  //       }
-  //   )};
+    // useStateで問題が生じたらletでloclistを貼ればいいかも
 
     const startWatchPosition = () =>{
-      if (!watchStatus.iswatching){
-      const watchId = navigator.geolocation.watchPosition(position => {   
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
-        setLocation({
-          latitude: lat,
-          longitude: lon
+      if (!watchStatus.isWatching){
+        navigator.geolocation.getCurrentPosition(position => {
+          setLoclist([{longitude: position.coords.longitude, latitude: position.coords.latitude}])
         });
-  
-      setWatchStatus({isWatching: true, watchId });
 
-      setLoclist((prevLoclist) => {
-        return [...prevLoclist, 
-        {latitude: lat, longitude: lon}]
+        let lon, lat;
+      const watchId = navigator.geolocation.watchPosition(position => {   
+        lon = position.coords.longitude;
+        lat = position.coords.latitude;
       });
+
+        const intervalId = setInterval(() => {
+          setLoclist((prevLoclist) => {
+            return [...prevLoclist, 
+              {longitude: lon, latitude: lat}]
+          });
+        }, 1000); 
+
+      setWatchStatus({isWatching: true, watchId, intervalId });
         }
-      )
-    }
   };
 
     const stopWatchPosition = () => {
     if (watchStatus.isWatching) {
+      console.log(JSON.stringify(loclist))
+
+      clearInterval(watchStatus.intervalId);
       navigator.geolocation.clearWatch(watchStatus.watchId);
-      setWatchStatus({isWatching: false, watchId: null });
+      setWatchStatus({isWatching: false, watchId: null, intervalId: null});
 
-      console.log(loclist)
-
-      fetch(`${API_BASE_URL}/route`,{
+      fetch(`${API_BASE_URL}/api/v1/routes`,{
         method : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          location : loclist
-        })
+        body: JSON.stringify(loclist)
       })
       .then(response => response.json())
-      // ユーザーidをつけるならここで追加
+      .then((data) => {
+        setFromTo(data);
+        console.log(data); 
+      })
+      .then(() => console.log(fromTo))
+      .catch(error => console.log(error)); 
 
-      setLoclist ([]);
+      setLoclist (() => {
+        return [];
+      });
       };
     };
 
   return (
     <>
-        {/* <button onClick = {getLocation}>位置情報を取得</button> */}
         <button onClick = {startWatchPosition}>位置情報取得開始</button>
         <button onClick = {stopWatchPosition}>位置情報取得終了</button>
-      <div>
-        {location.latitude}
-      </div>
-      <div>
-        {location.longitude}
-      </div>
+        <div>
+        </div>
+
     </>
   )
 }
