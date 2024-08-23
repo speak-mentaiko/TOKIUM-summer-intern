@@ -50,6 +50,8 @@ gem 'mutex_m'
 # install ffi
 gem 'ffi'
 
+gem 'dotenv-rails'
+
 # gem 'therubyracer', platforms: :ruby
 
 group :development, :test do
