@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :station, only: [:index]
+      resources :routes, only: [:index]
+      post '/routes', to: 'routes#index'
     end
   end
 
