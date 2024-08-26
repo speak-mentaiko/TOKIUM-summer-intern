@@ -2,7 +2,7 @@ import React from 'react';
 
 
 
-export const ManualInputForm = () => {
+export const ManualInputForm = ({ route = {} }) => {
   return (
     <>
       <div>#ManualInputForm</div>
@@ -22,7 +22,7 @@ export const ManualInputForm = () => {
 
         <h3>ルート情報</h3>
         <label htmlFor="from">出発地 (from):</label><br />
-        <input type="text" id="from" name="route[from]" required /><br /><br />
+        <input type="text" defaultValue = {route.from} id="from" name="route[from]" required /><br /><br />
 
         {/* 経由地を追加できるようにする */}
 
@@ -42,16 +42,16 @@ export const ManualInputForm = () => {
         <input type="text" id="point4" name="route[point4]" /><br /><br /> */}
 
         <label htmlFor="to">目的地 (to):</label><br />
-        <input type="text" id="to" name="route[to]" required /><br /><br />
+        <input type="text" defaultValue = {route.to} id="to" name="route[to]" required /><br /><br />
 
         <label htmlFor="route-way">ルートの移動手段:</label><br />
         <input type="text" id="route-way" name="route[way]" required /><br /><br />
 
         <label htmlFor="amount">金額 (amount):</label><br />
-        <input type="number" id="amount" name="route[amount]" step="0.01" required /><br /><br />
+        <input type="number" defaultValue = {route.amount} id="amount" name="route[amount]" step="0.01" required /><br /><br />
 
-        {/* <label htmlFor="distans">距離 (distans):</label><br />
-        <input type="number" id="distans" name="route[distans]" step="0.01" required /><br /><br /> */}
+        {/* <label htmlFor="distance">距離 (distance):</label><br />
+        <input type="number" defaultValue = {route.distance} id="distance" name="route[distance]" step="0.01" required /><br /><br /> */}
 
         <label htmlFor="memo">メモ:</label><br />
         <textarea id="memo" name="memo"></textarea><br /><br />

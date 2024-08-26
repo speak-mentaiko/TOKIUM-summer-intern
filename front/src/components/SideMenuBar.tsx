@@ -1,10 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface SideMenuBarProps {
     onAppearClick: () => void;
   }
 
 export const SideMenuBar = ({onDisappearClick}:SideMenuBarProps) => {
+    const navigate = useNavigate();
+
+    const toListApplication = () => {
+        onDisappearClick();
+        navigate('/list/application')
+    };
+
+    const toListRoute = () => {
+        onDisappearClick();
+        navigate('/list/route')
+    };
+
     const hideSideMenuBarClick = () =>{
     onDisappearClick();
     };
@@ -12,10 +25,10 @@ export const SideMenuBar = ({onDisappearClick}:SideMenuBarProps) => {
   return (<>
     <div>#SideMenuBar</div>
     <ul>
-        <li>
+        <li onClick = {toListApplication}>
             申請一覧
         </li>
-        <li>
+        <li onClick = {toListRoute}>
             経路一覧
         </li>
         <li>
