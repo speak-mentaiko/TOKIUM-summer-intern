@@ -12,9 +12,10 @@ Rails.application.routes.draw do
       resources :costs
       post '/routes', to: 'routes#index'
       get '/costs', to: 'costs#index'
-      post '/costs/request', to: 'costs#create'
+      post '/costs/request', to: 'costs#cost_request'
       get '/costs/request/list/:user_id', to: 'costs#cost_list'
-      get '/costs/list/:cost_id', to: 'costs#show_cost'
+      get '/costs/list/:cost_id', to: 'costs#cost_more'
+      post '/costs/approval', to: 'costs#cost_apploval'
     end
   end
 
