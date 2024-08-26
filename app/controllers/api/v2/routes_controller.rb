@@ -14,16 +14,19 @@ class Api::V2::RoutesController < ApplicationController
       course_data = detect_transfer(data_arr)
 
       course_data.each do |route|
-        via_stations << _get_station_only_for_via(route)
+        temp = _get_station_only_for_via(route)
+        if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
+          via_stations << temp
+        end
       end
 
       if via_stations.empty?
-        inf = {from: from, to: to}
+        inf = {from: from, to: to, from_lad: data_arr[0]["latitude"], from_lon: data_arr[0]["longitude"]}
       else
         inf = {from: from, via: via_stations,to: to}
       end
 
-      if inf
+      if !(inf["from"].nil?) && !(inf["to"].nil?)
         render json: inf, status: :created
       else
         render json: { errors: "error" }, status: :unprocessable_entity
@@ -36,20 +39,12 @@ class Api::V2::RoutesController < ApplicationController
 
   private
   def detect_transfer(data_arr)
-    dist_arr = []
+    key_dist = 100
     reduced_json = []
     for i in 1..data_arr.length-3
-      dist_arr.push(_hubeny(data_arr[i]["longitude"], data_arr[i]["latitude"],data_arr[i+1]["longitude"],data_arr[i+1]["latitude"]))
-    end
-    i = 0
-    while i < dist_arr.length - 2
-      if dist_arr[i+1] <= 500
-        reduced_json << data_arr[i]
-        while dist_arr[i] <= 50
-          i += 1
-        end
-      else
-        i+=1
+      reduced_json << data_arr[i]
+      while _hubeny(data_arr[i]["latitude"], data_arr[i]["longitude"],data_arr[i+1]["latitude"],data_arr[i+1]["longitude"]) <= key_dist && i <= data_arr.length-3
+        i += 1
       end
     end
     return reduced_json
@@ -99,7 +94,7 @@ class Api::V2::RoutesController < ApplicationController
     # URI.parseは、URIオブジェクトを生成するメソッドです。
     http_client= Net::HTTP.new(uri.host,uri.port)
     # HTTPクライアントを生成し、引数にホスト名とポート番号を指定しています。
-    get_request = Net::HTTP::Get.new("/api/json?method=getStations&x=#{coordinate["longitude"]}&y=#{coordinate["latitude"]}", 'Content-Type' => 'application/json')
+    get_request = Net::HTTP::Get.new("/api/json?method=getStations&x=#{coordinate[:longitude]}&y=#{coordinate[:latitude]}", 'Content-Type' => 'application/json')
     # Net::HTTP::Getは、HTTPのGETリクエストを表すクラスです。
     # 引数にリクエストするpathとヘッダーを指定しています。
     http_client.use_ssl = true
@@ -111,9 +106,7 @@ class Api::V2::RoutesController < ApplicationController
     if station_data.empty?
       return nil
     else
-      # return _reform_json(station_data)
-      temp = _reform_json(station_data)
-      return temp
+      return station_data["response"]["station"][0]["name"]
     end
   end
   def _get_station_only_for_via(coordinate)
@@ -134,13 +127,13 @@ class Api::V2::RoutesController < ApplicationController
       return nil
     else
       # return _reform_json(station_data)
-      temp = _reform_json(station_data)
-      return temp
+      # sleep(1)
+      return station_data["response"]["station"][0]["name"]
     end
   end
 
   def _reform_json(coodinates)
-    return coodinates = []? nil : ["response"]["station"][0]["name"]
+    return coodinates = []? nil : [0]
   end
 
 end
