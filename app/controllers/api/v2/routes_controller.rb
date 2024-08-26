@@ -9,6 +9,7 @@ class Api::V2::RoutesController < ApplicationController
       if data_arr.empty?
         render json: {errors: "empty error"}
       end
+
       from = get_fromstation(data_arr)
       to = get_tostation(data_arr)
       course_data = detect_transfer(data_arr)
@@ -22,17 +23,14 @@ class Api::V2::RoutesController < ApplicationController
 
       if via_stations.empty?
         inf = {from: from, to: to, amount: nil, distance: 0}
+      elsif from.nil?
+        inf = {error: "unprocessable request"}
       else
         inf = {from: from, via: via_stations,to: to, amount: nil, distance: 0}
       end
 
-      if 1
-        render json: inf, status: :created
-      else
-        render json: { errors: "error" }, status: :unprocessable_entity
-      end
-
-    elsif request.get?
+      render json: inf, status: :created
+    else
       render json: { errors: "method error" }, status: :bad_request
     end
   end
@@ -41,8 +39,8 @@ class Api::V2::RoutesController < ApplicationController
   def detect_transfer(data_arr)
     key_dist = 100
     reduced_json = []
-    total_distance = 0
-    for i in 1..data_arr.length-3
+    i = -1
+    while i < data_arr.length-3 && i +=1
       reduced_json << data_arr[i]
       while _hubeny(data_arr[i]["latitude"], data_arr[i]["longitude"],data_arr[i+1]["latitude"],data_arr[i+1]["longitude"]) <= key_dist && i <= data_arr.length-3
         i += 1
