@@ -10,30 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_26_033905) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_26_065240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "costs", force: :cascade do |t|
-    t.string "cost_id", null: false
-    t.string "user_id", null: false
-    t.date "date", null: false
-    t.string "visit", null: false
-    t.string "ca", null: false
-    t.string "route_from", null: false
+    t.string "cost_id"
+    t.string "user_id"
+    t.date "date"
+    t.string "visit"
+    t.string "ca"
+    t.string "route_from"
     t.string "route_via0"
     t.string "route_via1"
     t.string "route_via2"
     t.string "route_via3"
     t.string "route_via4"
-    t.string "route_to", null: false
+    t.string "route_to"
     t.string "route_way"
-    t.integer "route_amount", null: false
+    t.string "route_amount"
     t.text "memo"
-    t.string "approval_use_id", null: false
-    t.string "approval_status", null: false
-    t.date "approval_date", null: false
-    t.text "approval_massage"
+    t.string "approval_user_id"
+    t.string "approval_status"
+    t.date "approval_date"
+    t.text "approval_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,4 +53,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_26_033905) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
 end
