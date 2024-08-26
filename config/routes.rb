@@ -13,7 +13,8 @@ Rails.application.routes.draw do
       post '/routes', to: 'routes#index'
       get '/costs', to: 'costs#index'
       post '/costs/request', to: 'costs#create'
-      get '/costs/list/:cost_id', to: 'costs#show'
+      get '/costs/request/list/:user_id', to: 'costs#cost_list'
+      get '/costs/list/:cost_id', to: 'costs#show_cost'
     end
   end
 
