@@ -1,7 +1,12 @@
 import { useState } from "react";
-//import "./App.css";
+import { MeansOfTransportationSwitch } from "./MeansOfTransportationSwitch.tsx";
 
-export const Home = () => {
+interface StartStopButtonProps {
+  onStopClick: () => void;
+}
+
+
+export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const API_BASE_URL = "http://localhost:3000/";
 
   const [watchStatus, setWatchStatus] = useState({
@@ -37,7 +42,7 @@ export const Home = () => {
         setLoclist((prevLoclist) => {
           return [...prevLoclist, { longitude: lon, latitude: lat }];
         });
-      }, 1000);
+      }, 10000);
 
       setWatchStatus({ isWatching: true, watchId, intervalId });
     }
@@ -69,14 +74,21 @@ export const Home = () => {
       setLoclist(() => {
         return [];
       });
+
+      onStopClick();
     }
   };
 
   return (
     <>
-      <button onClick={startWatchPosition}>位置情報取得開始</button>
-      <button onClick={stopWatchPosition}>位置情報取得終了</button>
-      <div></div>
+      <div>#StarStopButton</div>
+      <MeansOfTransportationSwitch />
+
+      {watchStatus.isWatching ? (
+        <button onClick={stopWatchPosition}>Stop</button>
+      ) : (
+        <button onClick={startWatchPosition}>Start</button>
+      )}
     </>
   );
 };
