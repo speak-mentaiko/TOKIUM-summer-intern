@@ -27,7 +27,7 @@ class Api::V2::RoutesController < ApplicationController
       distance = get_distance(data_arr)
       costs = get_cost(from, via_stations, to)
       if via_stations.empty?
-        inf = {from: from, to: to, amount: nil, distance: 0}
+        inf = {from: from, to: to, costs: costs, distance: distance}
       elsif from.nil?
         inf = {error: "unprocessable request"}
       else
@@ -111,7 +111,7 @@ class Api::V2::RoutesController < ApplicationController
     case via_station_num-1
     when -1
       ad_url = "eki1=" +
-        URI.encode_www_form_component(from_station)+"&eki2="+ URI.encode_www_form_component(to_station)+"&S="+ URI.encode_www_form_component("検索")
+        URI.encode_www_form_component(from_station)+"&eki2="+ URI.encode_www_form_component(to_station)+"&S="+ URI.encode_www_form_component("検索")+ "&Csg=1"
     when 0
       ad_url = "eki1=" + URI.encode_www_form_component(from_station) +
         "&eki2=" + URI.encode_www_form_component(to_station) +
