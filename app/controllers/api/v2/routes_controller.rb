@@ -25,16 +25,14 @@ class Api::V2::RoutesController < ApplicationController
       end
 
       distance = get_distance(data_arr)
-
+      costs = get_cost(from, via_stations, to)
       if via_stations.empty?
         inf = {from: from, to: to, amount: nil, distance: 0}
       elsif from.nil?
         inf = {error: "unprocessable request"}
       else
-        inf = {from: from, via: via_stations,to: to, amount: nil, distance: distance}
+        inf = {from: from, via: via_stations,to: to, amount: costs, distance: distance}
       end
-      costs = get_cost(from, via_stations, to)
-      inf = {from: from, to: to, amount: costs, distance: distance}
       render json: inf, status: :created
     else
       render json: { errors: "method error" }, status: :bad_request
