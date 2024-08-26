@@ -110,7 +110,8 @@ class Api::V2::RoutesController < ApplicationController
 
     case via_station_num-1
     when -1
-      ad_url = "eki1=#{CGI.escapeHTML(from_station)}&eki2=#{CGI.escapeHTML(to_station)}&S=#{CGI.escapeHTML("検索")}"
+      ad_url = "eki1=" +
+        URI.encode_www_form_component(from_station)+"&eki2="+ URI.encode_www_form_component(to_station)+"&S="+ URI.encode_www_form_component("検索")
     when 0
       ad_url = "eki1=" + URI.encode_www_form_component(from_station) +
         "&eki2=" + URI.encode_www_form_component(to_station) +
