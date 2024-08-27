@@ -11,7 +11,7 @@ export const RouteRegistration = () => {
         navigate('/list/route');
     };
 
-    const { route } = location.state || {}; // 遷移元から渡されたデータを取得
+    const { route } = location.state || {};
 
   return (<>
     <button onClick = {goBackToRouteList}>戻る</button>

@@ -10,17 +10,12 @@ export const RouteListPage = () => {
         {
           id: uuidv4(),
           from: "浅草",
-          via: [],
           to: "つくば",
-          amount: 1000,
-          distance: 1000},
+        },
         {
           id: uuidv4(),
           from: "大阪",
-          via: [],
           to: "京都",
-          amount: 1000,
-          distance: 1000
         }
   ]);
 

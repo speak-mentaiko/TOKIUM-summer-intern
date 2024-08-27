@@ -5,7 +5,6 @@ interface StartStopButtonProps {
   onStopClick: () => void;
 }
 
-
 export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const API_BASE_URL = "http://localhost:3000/";
 
@@ -14,12 +13,8 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
     watchId: null,
     intervalId: null,
   });
-  const [fromTo, setFromTo] = useState({
-    from: null,
-    to: null,
-  });
   const [loclist, setLoclist] = useState([]);
-  // useStateで問題が生じたらletでloclistを貼ればいいかも
+
 
   const startWatchPosition = () => {
     if (!watchStatus.isWatching) {
@@ -65,10 +60,8 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
       })
         .then((response) => response.json())
         .then((data) => {
-          setFromTo(data);
           console.log(data);
         })
-        .then(() => console.log(fromTo))
         .catch((error) => console.log(error));
 
       setLoclist(() => {

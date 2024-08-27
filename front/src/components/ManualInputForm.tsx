@@ -1,60 +1,118 @@
-import React from 'react';
-
-
+import React,  {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { format } from 'date-fns';
+// この2つはinstallしました
+type Inputs = {
+  date: Date, //利用日
+  visit: string, //訪問先
+  ca: string, //経費科目
+  way: string, //移動手段
+  route_from: string,
+  route_via1: string|null, //経由地
+  route_via2: string|null,
+  route_via3: string|null,
+  route_via4: string|null,
+  to: string,
+  route_way: string,
+  route_amount: number,
+  memo: string
+};
 
 export const ManualInputForm = ({ route = {} }) => {
+  const API_BASE_URL = "http://localhost:3000/";
+  const navigate = useNavigate();
+  const [count, setCount] = useState<number>(0);
+
+  const today = new Date()
+  const defaultDate = format(today, 'yyyy-MM-dd')
+
+  const {
+    register,
+    // watch,
+    getValues,
+    // formState: { errors }
+  } = useForm<Inputs>();
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+    let inputRoute = getValues();
+    // inputRoute["test"] = "test";
+    // こんな感じで追加できます
+    console.log(inputRoute)
+
+    fetch(`${API_BASE_URL}/costs/request`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inputRoute),
+    })
+    .catch((error) => console.log(error));
+
+    alert('submitted!')
+    navigate('/auto');
+  };
+
+  const addViaSpots = () =>{
+    if (count <= 3){setCount(count +1)};
+  };
+
+  const removeViaSpots = () =>{
+    if (count >= 1){setCount(count - 1)};
+  };  
+
   return (
     <>
       <div>#ManualInputForm</div>
-      <form action="/cost/request" method="POST">
+      <form onSubmit = {onFormSubmit}>
+        <label htmlFor="date">訪問日程:</label><br />
+        <input defaultValue = {defaultDate} {...register("date")} type = "Date" required/><br /><br />
 
-        <label htmlFor="date">訪問先:</label><br />
-        <input type="text" id="date" name="date" required /><br /><br />
+        <label htmlFor="visit">訪問先:</label><br />
+        <input {...register("visit")} required /><br /><br />
 
-        <label htmlFor="vist">訪問先:</label><br />
-        <input type="text" id="vist" name="vist" required /><br /><br />
 
         <label htmlFor="ca">経費科目:</label><br />
-        <input type="text" id="ca" name="ca" required /><br /><br />
-
-        <label htmlFor="way">移動手段:</label><br />
-        <input type="text" id="way" name="way" required /><br /><br />
+        <input {...register("ca")} /><br /><br />
 
         <h3>ルート情報</h3>
-        <label htmlFor="from">出発地 (from):</label><br />
-        <input type="text" defaultValue = {route.from} id="from" name="route[from]" required /><br /><br />
+        <label htmlFor="route_from">出発地 (from):</label><br />
+        <input defaultValue = {route.from} {...register("route_from")} required /><br /><br />
 
-        {/* 経由地を追加できるようにする */}
+        <fieldset>
+        <button onClick = {addViaSpots}>経由値を追加</button><br />
 
-        {/* <label htmlFor="point0">経由地1 (point0):</label><br />
-        <input type="text" id="point0" name="route[point0]" /><br /><br />
 
-        <label htmlFor="point1">経由地2 (point1):</label><br />
-        <input type="text" id="point1" name="route[point1]" /><br /><br />
+        {count >= 1 && (<>
+          <label htmlFor="route_via1">経由1:</label><button onClick = {removeViaSpots}>-</button><br /><br />
+          <input {...register("route_via1")} /><br /><br /></>)}
 
-        <label htmlFor="point2">経由地3 (point2):</label><br />
-        <input type="text" id="point2" name="route[point2]" /><br /><br />
+        {count >= 2 && (<>
+          <label htmlFor="route_via2">経由2:</label><button onClick = {removeViaSpots}>-</button><br />
+          <input {...register("route_via2")} /><br /><br /></>)}
 
-        <label htmlFor="point3">経由地4 (point3):</label><br />
-        <input type="text" id="point3" name="route[point3]" /><br /><br />
+          {count >= 3 && (<>
+          <label htmlFor="route_via3">経由3:</label><button onClick = {removeViaSpots}>-</button><br />
+          <input {...register("route_via3")} /><br /><br /></>)}
 
-        <label htmlFor="point4">経由地5 (point4):</label><br />
-        <input type="text" id="point4" name="route[point4]" /><br /><br /> */}
+          {count >= 4 && (<>
+          <label htmlFor="route_via4">経由4:</label><button onClick = {removeViaSpots}>-</button><br />
+          <input {...register("route_via4")} /><br /><br /></>)}
 
-        <label htmlFor="to">目的地 (to):</label><br />
-        <input type="text" defaultValue = {route.to} id="to" name="route[to]" required /><br /><br />
+        </ fieldset>
 
-        <label htmlFor="route-way">ルートの移動手段:</label><br />
-        <input type="text" id="route-way" name="route[way]" required /><br /><br />
+        <label htmlFor="route_to">目的地 (to):</label><br />
+        <input defaultValue = {route.to} {...register("route_to")} required /><br /><br />
 
-        <label htmlFor="amount">金額 (amount):</label><br />
-        <input type="number" defaultValue = {route.amount} id="amount" name="route[amount]" step="0.01" required /><br /><br />
+        <label htmlFor="route_way">ルートの移動手段:</label><br />
+        <input {...register("route_way")} /><br /><br />
 
-        {/* <label htmlFor="distance">距離 (distance):</label><br />
-        <input type="number" defaultValue = {route.distance} id="distance" name="route[distance]" step="0.01" required /><br /><br /> */}
+        <label htmlFor="route_amount">金額:</label><br />
+        <input {...register("route_amount")} type="number" required /><br /><br />
 
         <label htmlFor="memo">メモ:</label><br />
-        <textarea id="memo" name="memo"></textarea><br /><br />
+        <textarea {...register("memo")} /><br /><br />
 
         <button type="submit">submit</button>
       </form>
