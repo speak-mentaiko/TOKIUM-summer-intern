@@ -9,9 +9,9 @@ class Api::V2::Routes::ListController < ApplicationController
   end
 
   def route
-    routes = Route.where(route_id: params[:route_id])
+    routes = Route.find_by(route_id: params[:route_id])
     if routes.any?
-      render json: routes.map { |route| format_route(route) }
+      render json: routes, status: 200
     else
       render json: { error: "No routes found with route_id #{params[:route_id]}" }, status: 404
     end
