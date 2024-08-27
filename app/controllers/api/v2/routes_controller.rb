@@ -9,11 +9,17 @@ class Api::V2::RoutesController < ApplicationController
   def index
     via_stations = []
     if request.post?
-      data_arr_raw = params[:_json]
-      if data_arr_raw.empty?
-        render json: {errors: "empty error"}
+      if params.nil?
+        render json: {errors: "empty error"}, status: :bad_request
       end
+      data_arr_raw = params[:data]
+      user_id = params[:user_id]
+      way = params[:way]
+
       data_arr = []
+      if User.where(user_id: user_id).empty?
+        render json: {errors: "Detected unauthorized access"}, status: 403 and return
+      end
 
       data_arr_raw.each do |data|
         if data["latitude"] == 0 || data["longitude"] == 0
@@ -74,9 +80,10 @@ class Api::V2::RoutesController < ApplicationController
         "via3": inf[:via3],
         "via4": inf[:via4],
         "to": inf[:to],
-        "way": "public transport",
+        "way": way,
         "amount": costs,
-        "distance": distance
+        "distance": distance,
+        "user_id": user_id
       )
       unless @routes_processed.save
         inf = {error: "db error"}
