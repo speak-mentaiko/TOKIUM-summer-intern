@@ -8,9 +8,17 @@ class Api::V2::RoutesController < ApplicationController
   def index
     via_stations = []
     if request.post?
-      data_arr = params[:_json]
-      if data_arr.empty?
+      data_arr_raw = params[:_json]
+      if data_arr_raw.empty?
         render json: {errors: "empty error"}
+      end
+      data_arr = []
+
+      data_arr_raw.each do |data|
+        if data["latitude"] == 0 || data["longitude"] == 0
+          next
+        end
+        data_arr << data
       end
 
       from = get_fromstation(data_arr)
@@ -18,7 +26,7 @@ class Api::V2::RoutesController < ApplicationController
       course_data = detect_transfer(data_arr)
 
       course_data.each do |route|
-        temp = _get_station(route)
+        temp = route != [] ?  _get_station(route) : next
         if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
           via_stations << temp
         end
@@ -82,10 +90,10 @@ class Api::V2::RoutesController < ApplicationController
     # requestメソッドの引数にNet:HTTP:Responseオブジェクトをあたえます。
     # responseには、HTTPレスポンスが格納されている
     station_data = JSON.parse(response.body)
-    if station_data.empty?
-      return nil
-    else
+    unless  response.nil?
       return station_data["response"]["station"][0]["name"]
+    else
+      return nil
     end
   end
 
