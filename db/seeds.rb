@@ -49,3 +49,6 @@
 #     distance: rand(500..5000) # Random distance between 500 and 5000
 #   )
 # end
+User.create!(
+  email: "a@a.com"
+)
