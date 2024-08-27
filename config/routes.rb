@@ -11,9 +11,9 @@ Rails.application.routes.draw do
       resources :routes, only: [:index]
       post '/routes', to: 'routes#index'
       namespace :routes do
-        resources :lists, only: [:index]
-        post 'lists', to: 'lists#index'
-        get 'lists/:route_id', to: 'lists#route_id'
+        resources :list, only: [:index]
+        post 'list', to: 'list#index'
+        get 'list/:route_id', to: 'list#route'
       end
     end
   end

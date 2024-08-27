@@ -1,4 +1,4 @@
-class Api::V2::Routes::ListsController < ApplicationController
+class Api::V2::Routes::ListController < ApplicationController
   def index
     unless request.post?
       routes = Route.select(:route_id, :from, :to)
@@ -8,7 +8,7 @@ class Api::V2::Routes::ListsController < ApplicationController
     end
   end
 
-  def route_id
+  def route
     routes = Route.where(route_id: params[:route_id])
     if routes.any?
       render json: routes.map { |route| format_route(route) }
