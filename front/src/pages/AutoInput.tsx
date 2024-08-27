@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
 import { useState } from "react";
 import { StartStopButton } from "../components/StartStopButton.tsx";
 import { SummaryForAutoInput } from "../components/SummaryForAutoInput.tsx";
 
 export const AutoInput = () => {
-  const [showStartStopButtonStatus, setShowStartStopButtonStatus] =
-    useState(true);
+
+  const [showStartStopButtonStatus, setShowStartStopButtonStatus] = useState(true);
+
 
   const handleStopClick = () => {
     setShowStartStopButtonStatus(false);
@@ -16,13 +17,13 @@ export const AutoInput = () => {
   };
 
   return (
-    <>
-      <div>#AutoInput</div>
-      {showStartStopButtonStatus ? (
-        <StartStopButton onStopClick={handleStopClick} />
-      ) : (
-        <SummaryForAutoInput onStartClick={handleStartClick} />
-      )}
-    </>
-  );
-};
+      <>
+        <div>#AutoInput</div>
+        {showStartStopButtonStatus ? (
+          <StartStopButton onStopClick={handleStopClick} />
+        ) : (
+          <SummaryForAutoInput onStartClick = {handleStartClick} />
+        )}
+      </>
+  )
+}
