@@ -20,7 +20,7 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_request
-    cost = Cost.new(_get_params)
+    cost = Cost.new(_get_cost_params)
     if cost.save
       render json: { status: 'SUCCESS', data: cost }
     else
@@ -30,11 +30,11 @@ class Api::V2::CostsController < ApplicationController
 
   def cost_approval
     approval_data = _get_approval_params
-    cost = Cost.find_by(cost_id: approval_data.cost_id)
-    cost.approval_user_id = approval_data.approval_user_id
-    cost.approval_status = approval_data.approval_status
-    cost.approval_date = approval_data.approval_date
-    cost.approval_message = approval_data.approval_message
+    cost = Cost.find_by(cost_id: approval_data["cost_id"])
+    cost.approval_user_id = approval_data["approval_user_id"]
+    cost.approval_status = approval_data["approval_status"]
+    cost.approval_date = approval_data["approval_date"]
+    cost.approval_message = approval_data["approval_message"]
     if cost.save
       render json: { status: 'SUCCESS', data: cost }
     else
