@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_26_033905) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_27_022616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -39,17 +39,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_26_033905) do
   end
 
   create_table "routes", force: :cascade do |t|
-    t.string "route_id", null: false
-    t.string "from", null: false
+    t.string "route_id"
+    t.string "from"
     t.string "via0"
     t.string "via1"
     t.string "via2"
     t.string "via3"
     t.string "via4"
-    t.string "to", null: false
+    t.string "to"
     t.string "way"
-    t.integer "amount", null: false
-    t.integer "distans"
+    t.string "amount"
+    t.float "distance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
