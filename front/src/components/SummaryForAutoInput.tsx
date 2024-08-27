@@ -1,19 +1,20 @@
-import React from 'react';
+import React from "react";
 
 interface SummaryForAutoInputProps {
-    onStartClick: () => void;
-  }
+  onStartClick: () => void;
+}
 
-
-export const SummaryForAutoInput = ({ onStartClick }: SummaryForAutoInputProps) => {
-    
-const goStartPage = () =>{
+export const SummaryForAutoInput = ({
+  onStartClick,
+}: SummaryForAutoInputProps) => {
+  const goStartPage = () => {
     onStartClick();
-};
+  };
 
-  return (<>
-    <div>#SummaryForAutoInput</div>
-    <button onClick = {goStartPage}>Home</button>
+  return (
+    <>
+      <div>#SummaryForAutoInput</div>
+      <button onClick={goStartPage}>Home</button>
     </>
-  )
+  );
 };

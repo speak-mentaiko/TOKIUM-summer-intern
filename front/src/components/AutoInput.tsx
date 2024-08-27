@@ -1,7 +1,6 @@
-import React from "react";
 import { useState } from "react";
-import { StartStopButton } from "../components/StartStopButton.tsx";
-import { SummaryForAutoInput } from "../components/SummaryForAutoInput.tsx";
+import { StartStopButton } from "./StartStopButton";
+import { SummaryForAutoInput } from "./SummaryForAutoInput";
 
 export const AutoInput = () => {
   const [showStartStopButtonStatus, setShowStartStopButtonStatus] =
