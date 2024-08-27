@@ -27,71 +27,73 @@ class Api::V2::RoutesController < ApplicationController
         end
         data_arr << data
       end
+      if way == "public transport"
+        from = get_fromstation(data_arr)
+        to = get_tostation(data_arr)
+        course_data = detect_transfer(data_arr)
 
-      from = get_fromstation(data_arr)
-      to = get_tostation(data_arr)
-      course_data = detect_transfer(data_arr)
+        course_data.each do |route|
+          temp = route != [] ?  _get_station(route) : next
+          if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
+            via_stations << temp
+          end
+        end
 
-      course_data.each do |route|
-        temp = route != [] ?  _get_station(route) : next
-        if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
-          via_stations << temp
+        distance = get_distance(data_arr)
+        costs = get_cost(from, via_stations, to)
+        if via_stations.empty?
+          inf = {
+            from: from,
+            via0: nil,
+            via1: nil,
+            via2: nil,
+            via3: nil,
+            via4: nil,
+            via5: nil,
+            to: to,
+            costs: costs,
+            distance: distance
+          }
+        elsif from.nil?
+          inf = {error: "unprocessable request"}
+        else
+          inf = {
+            from: from,
+            via0: (via_stations.class == Array)? via_stations[0]: via_stations,
+            via1: via_stations.class == (Array)? nil: via_stations[1],
+            via2: (via_stations.class == (Array) && via_stations.length == 2)? nil: via_stations[2],
+            via3: (via_stations.class == (Array) && via_stations.length == 3)? nil: via_stations[3],
+            via4: (via_stations.class == (Array) && via_stations.length == 4)? nil: via_stations[4],
+            via5: (via_stations.class == (Array) && via_stations.length >= 5)? nil: via_stations[5],
+            to: to,
+            amount: costs,
+            distance: distance
+          }
+        end
+
+        @routes_processed = Route.new(
+          "route_id": SecureRandom.uuid,
+          "from": inf[:from],
+          "via0": inf[:via0],
+          "via1": inf[:via1],
+          "via2": inf[:via2],
+          "via3": inf[:via3],
+          "via4": inf[:via4],
+          "to": inf[:to],
+          "way": way,
+          "amount": costs,
+          "distance": distance,
+          "user_id": user_id
+        )
+        unless @routes_processed.save
+          inf = {error: "db error"}
         end
       end
 
-      distance = get_distance(data_arr)
-      costs = get_cost(from, via_stations, to)
-      if via_stations.empty?
-        inf = {
-          from: from,
-          via0: nil,
-          via1: nil,
-          via2: nil,
-          via3: nil,
-          via4: nil,
-          via5: nil,
-          to: to,
-          costs: costs,
-          distance: distance
-        }
-      elsif from.nil?
-        inf = {error: "unprocessable request"}
+        render json: inf, status: :created
       else
-        inf = {
-          from: from,
-          via0: (via_stations.class == Array)? via_stations[0]: via_stations,
-          via1: via_stations.class == (Array)? nil: via_stations[1],
-          via2: (via_stations.class == (Array) && via_stations.length == 2)? nil: via_stations[2],
-          via3: (via_stations.class == (Array) && via_stations.length == 3)? nil: via_stations[3],
-          via4: (via_stations.class == (Array) && via_stations.length == 4)? nil: via_stations[4],
-          via5: (via_stations.class == (Array) && via_stations.length >= 5)? nil: via_stations[5],
-          to: to,
-          amount: costs,
-          distance: distance
-        }
+        render json: { errors: "method error" }, status: :bad_request
       end
-
-      @routes_processed = Route.new(
-        "route_id": SecureRandom.uuid,
-        "from": inf[:from],
-        "via0": inf[:via0],
-        "via1": inf[:via1],
-        "via2": inf[:via2],
-        "via3": inf[:via3],
-        "via4": inf[:via4],
-        "to": inf[:to],
-        "way": way,
-        "amount": costs,
-        "distance": distance,
-        "user_id": user_id
-      )
-      unless @routes_processed.save
-        inf = {error: "db error"}
-      end
-      render json: inf, status: :created
-    else
-      render json: { errors: "method error" }, status: :bad_request
-    end
   end
 
   private
