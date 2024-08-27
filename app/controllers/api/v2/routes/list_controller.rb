@@ -31,7 +31,7 @@ class Api::V2::Routes::ListController < ApplicationController
       to: route.to,
       way: route.way,
       amount: route.amount,
-      distans: route.distans
+      distance: route.distance
     }
   end
 end
