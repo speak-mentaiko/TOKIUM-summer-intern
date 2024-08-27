@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export const Setting = () => {
-  return (<>
-    <div>#Setting</div>
+  return (
+    <>
+      <div>#Setting</div>
     </>
-  )
+  );
 };

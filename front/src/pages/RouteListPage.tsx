@@ -1,9 +1,9 @@
-import React from 'react';
-import { useState} from "react";
-import {v4 as uuidv4} from "uuid";
+import React from "react";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 // uuidがなかったのでinstallしました
-import { RouteList } from '../components/routelist/RouteList.tsx';
-import { ListHeader } from '../components/ListHeader.tsx';
+import { RouteList } from "../components/routelist/RouteList.tsx";
+import { ListHeader } from "../components/ListHeader.tsx";
 
 export const RouteListPage = () => {
   const [routeListItems,  setRouteListItems] = useState([
@@ -21,11 +21,9 @@ export const RouteListPage = () => {
 
   return (
     <>
-    <div>#RouteListPage</div>
-    <ListHeader />
-    <RouteList routeListItems ={routeListItems}/>
+      <div>#RouteListPage</div>
+      <ListHeader />
+      <RouteList routeListItems={routeListItems} />
     </>
   );
 };
-
-
