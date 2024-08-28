@@ -31,7 +31,7 @@ class Api::V2::SignupController < ApplicationController
         part: role_data
       )
       if @user.save
-        render json: { success: true }, status: 201
+        render json: { user_id: @user.user_id}, status: 201
       else
         render json: { error: @user.errors.full_messages }, status: 422
       end
