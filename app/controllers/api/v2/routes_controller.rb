@@ -88,12 +88,15 @@ class Api::V2::RoutesController < ApplicationController
         unless @routes_processed.save
           inf = {error: "db error"}
         end
+        render json: inf, status: :created
+        else
+
+      render json: {error: "Not implementation, under construct"}, status: 418
       end
 
-        render json: inf, status: :created
-      else
-        render json: { errors: "method error" }, status: :bad_request
-      end
+    else
+      render json: { errors: "method error" }, status: :bad_request
+    end
   end
 
   private
