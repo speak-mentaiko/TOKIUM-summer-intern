@@ -1,13 +1,16 @@
 import { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../hooks/userState";
 
 export const Signin = () => {
   const API_BASE_URL = "http://localhost:3000/";
   const navigate = useNavigate();
 
-  const [issignIn, setSignIn] = useState<boolean | undefined>(undefined);
+  const [error, setError] = useState();
+  const [, setUserId] = useRecoilState(userState);
 
-  const signInSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const signInSubmit: FormEventHandler<HTMLFormElement> = (event: any) => {
     event.preventDefault();
 
     const form = new FormData(event.currentTarget);
@@ -25,10 +28,11 @@ export const Signin = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.user_id) {
+          setUserId(json.user_id);
           navigate("/home");
         } else {
-          setSignIn(false);
-          console.log(issignIn);
+          setError(json.error);
+          console.log(json.error);
         }
       });
   };
@@ -48,7 +52,7 @@ export const Signin = () => {
           <input type="submit" value="Submit" />
         </button>
       </form>
-      {!issignIn ? <p>サインインに失敗しました</p> : <div>{issignIn}</div>}
+      <p>{error}</p>
     </>
   );
 };
