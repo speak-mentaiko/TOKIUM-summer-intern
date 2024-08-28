@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 
 export const useIsSidebarOpenState = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -9,7 +9,7 @@ export const useIsSidebarOpenMutator = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleIsSidebarOpen = useCallback(() => {
-    setIsSidebarOpen(prevState => !prevState);
+    setIsSidebarOpen((prevState) => !prevState);
   }, []);
 
   const setSidebarOpen = useCallback((open) => {
