@@ -1,5 +1,7 @@
 class Api::V2::CostsController < ApplicationController
+
   def cost_list
+    (render json: {error: "Detected Unauthorized access"}, status:  :forbidden and return)unless User.where(user_id: params[:user_id]).any?
     list = Cost.where(user_id: params[:user_id])
     cost_list = []
 
@@ -11,6 +13,7 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_more
+
     cost = Cost.find_by(cost_id: params[:cost_id])
     if cost
       render json: { status: 'SUCCESS', data: cost }
@@ -20,7 +23,9 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_request
+    (render json: {error: "method error"}, status:  :bad_request and return)if request.method == "GET"
     cost = Cost.new(_get_cost_params)
+    (render json: {error: "Detected Unauthorized access"}, status:  :forbidden and return)unless  User.where(user_id: cost[:user_id]).any?
     if cost.save
       render json: { status: 'SUCCESS', data: cost }
     else
