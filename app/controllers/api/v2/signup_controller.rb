@@ -8,7 +8,7 @@ class Api::V2::SignupController < ApplicationController
   end
 
   def role
-    data_arr_raw = params[:_json]
+    data_arr_raw = get_params
     role_data = params[:role]
 
     # Handle both array and hash formats
@@ -20,14 +20,14 @@ class Api::V2::SignupController < ApplicationController
       render json: { error: "Invalid JSON data" }, status: 400 and return
     end
 
-    if User.where(email: sign_data["email"]).empty?
+    if User.where(email: sign_data[:email]).empty?
       @user = User.new(
         user_id: SecureRandom.uuid,
-        name: sign_data["name"],
-        email: sign_data["email"],
-        password: sign_data["password"],
-        password_confirmation: sign_data["password_confirmation"],
-        project: sign_data["project"],
+        name: sign_data[:name],
+        email: sign_data[:email],
+        password: sign_data[:password],
+        password_confirmation: sign_data[:password_confirmation],
+        project: sign_data[:project],
         part: role_data
       )
       if @user.save
@@ -38,5 +38,11 @@ class Api::V2::SignupController < ApplicationController
     else
       render json: { error: "Your email address has already registered" }, status: 409
     end
+  end
+
+  private
+
+  def get_params
+    { email: params[:email], password: params[:password], password_confirmation: params[:password_confirmation], name: params[:name], project: params[:project], part: params[:part]}
   end
 end
