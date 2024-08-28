@@ -3,37 +3,97 @@ require 'json'
 require 'open-uri'
 require 'nokogiri'
 require 'uri'
+require 'securerandom'
 
 class Api::V2::RoutesController < ApplicationController
   def index
     via_stations = []
     if request.post?
-      data_arr = params[:_json]
-      if data_arr.empty?
-        render json: {errors: "empty error"}
+      if params.nil?
+        render json: {errors: "empty error"}, status: :bad_request
+      end
+      data_arr_raw = params[:data]
+      user_id = params[:user_id]
+      way = params[:way]
+
+      data_arr = []
+      if User.where(user_id: user_id).empty?
+        render json: {errors: "Detected unauthorized access"}, status: 403 and return
       end
 
-      from = get_fromstation(data_arr)
-      to = get_tostation(data_arr)
-      course_data = detect_transfer(data_arr)
-
-      course_data.each do |route|
-        temp = _get_station(route)
-        if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
-          via_stations << temp
+      data_arr_raw.each do |data|
+        if data["latitude"] == 0 || data["longitude"] == 0
+          next
         end
+        data_arr << data
+      end
+      if way == "public transport"
+        from = get_fromstation(data_arr)
+        to = get_tostation(data_arr)
+        course_data = detect_transfer(data_arr)
+
+        course_data.each do |route|
+          temp = route != [] ?  _get_station(route) : next
+          if !(via_stations.last == temp) && !(from == temp) && !(to == temp)
+            via_stations << temp
+          end
+        end
+
+        distance = get_distance(data_arr)
+        costs = get_cost(from, via_stations, to)
+        if via_stations.empty?
+          inf = {
+            from: from,
+            via0: nil,
+            via1: nil,
+            via2: nil,
+            via3: nil,
+            via4: nil,
+            via5: nil,
+            to: to,
+            costs: costs,
+            distance: distance
+          }
+        elsif from.nil?
+          inf = {error: "unprocessable request"}
+        else
+          inf = {
+            from: from,
+            via0: (via_stations.class == Array)? via_stations[0]: via_stations,
+            via1: via_stations.class == (Array)? nil: via_stations[1],
+            via2: (via_stations.class == (Array) && via_stations.length == 2)? nil: via_stations[2],
+            via3: (via_stations.class == (Array) && via_stations.length == 3)? nil: via_stations[3],
+            via4: (via_stations.class == (Array) && via_stations.length == 4)? nil: via_stations[4],
+            via5: (via_stations.class == (Array) && via_stations.length >= 5)? nil: via_stations[5],
+            to: to,
+            amount: costs,
+            distance: distance
+          }
+        end
+
+        @routes_processed = Route.new(
+          "route_id": SecureRandom.uuid,
+          "from": inf[:from],
+          "via0": inf[:via0],
+          "via1": inf[:via1],
+          "via2": inf[:via2],
+          "via3": inf[:via3],
+          "via4": inf[:via4],
+          "to": inf[:to],
+          "way": way,
+          "amount": costs,
+          "distance": distance,
+          "user_id": user_id
+        )
+        unless @routes_processed.save
+          inf = {error: "db error"}
+        end
+        render json: inf, status: :created
+        else
+
+      render json: {error: "Not implementation, under construct"}, status: 418
       end
 
-      distance = get_distance(data_arr)
-      costs = get_cost(from, via_stations, to)
-      if via_stations.empty?
-        inf = {from: from, to: to, costs: costs, distance: distance}
-      elsif from.nil?
-        inf = {error: "unprocessable request"}
-      else
-        inf = {from: from, via: via_stations,to: to, amount: costs, distance: distance}
-      end
-      render json: inf, status: :created
     else
       render json: { errors: "method error" }, status: :bad_request
     end
@@ -54,7 +114,7 @@ class Api::V2::RoutesController < ApplicationController
     return reduced_json
   end
 
-# ヒュベニの公式
+  # ヒュベニの公式
   def _hubeny(lat1, lng1, lat2, lng2)
     p = ( lat1 + lat2 ) * 0.00872664625
     w = Math::sqrt( 1 - (0.00669437998  * ( ( Math::sin( p ) ) ** 2 )) )
@@ -67,7 +127,7 @@ class Api::V2::RoutesController < ApplicationController
   def get_tostation(coordinates)
     _get_station(coordinates[-1])
   end
-  
+
   def _get_station(coordinate)
     uri = URI.parse('https://express.heartrails.com')
     # URI.parseは、URIオブジェクトを生成するメソッドです。
@@ -82,10 +142,10 @@ class Api::V2::RoutesController < ApplicationController
     # requestメソッドの引数にNet:HTTP:Responseオブジェクトをあたえます。
     # responseには、HTTPレスポンスが格納されている
     station_data = JSON.parse(response.body)
-    if station_data.empty?
-      return nil
-    else
+    unless  response.nil?
       return station_data["response"]["station"][0]["name"]
+    else
+      return nil
     end
   end
 

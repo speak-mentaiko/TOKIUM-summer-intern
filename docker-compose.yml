@@ -24,7 +24,7 @@ services:
     command: >
        bash -c
        "bundle exec rails db:create &&
-       bundle exec rails db:migrate &&
+       bundle exec rails db:migrate:reset &&
        bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - .:/app
@@ -49,7 +49,7 @@ services:
     command: >
       bash -c
       "bundle exec rails db:create &&
-      bundle exec rails db:migrate &&
+      bundle exec rails db:migrate:reset &&
       bundle exec spring server"
     volumes:
       - .:/app

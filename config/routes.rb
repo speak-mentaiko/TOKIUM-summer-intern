@@ -10,6 +10,14 @@ Rails.application.routes.draw do
       resources :station, only: [:index]
       resources :routes, only: [:index]
       post '/routes', to: 'routes#index'
+      post '/signin', to: 'signin#index'
+      post '/signup', to: 'signup#index'
+      post '/signup/:role', to: 'signup#role'
+      namespace :routes do
+        resources :list, only: [:index]
+        post '/list', to: 'list#index'
+        get '/list/:route_id', to: 'list#route'
+      end
     end
   end
 
