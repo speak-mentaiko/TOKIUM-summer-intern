@@ -11,9 +11,8 @@ export const Sidebar = () => {
   return (
     <>
       <nav
-        className={`${
-          isSidebarOpen ? '' : 'ml-minus-256'
-        } w-256 bg-gray-900 p-20 duration-300 z-50`}
+        className={`${isSidebarOpen ? '' : 'ml-minus-256'            
+        } bg-gray-900 p-20 duration-300 z-50 absolute top-88 left-0 bottom-0 right-176 bg-gray-700 text-white z-10`}
       >
         <NavigationItem Icon={AiFillDashboard} to={'/list/application'} name={'申請一覧'} />
         <NavigationItem Icon={HiOutlineUserGroup} to={'/list/route'} name={'経路一覧'} />

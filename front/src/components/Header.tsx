@@ -1,26 +1,32 @@
 // import { Hamburger } from "./Hamburger";
+import React, { useState } from 'react';
 import { Setting } from "./Setting";
-
-import { useIsSidebarOpenMutator } from '../hooks/isSidebarOpen';
+import { Sidebar } from './Sidebar';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
 
-interface HeaderProps {
-  onToggleIsSidebarOpen: () => void;
-}
+// interface HeaderProps {
+//   onToggleIsSidebarOpen: () => void;
+// }
 
-export const Header = ({onToggleIsSidebarOpen}: HeaderProps) => {
+export const Header = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  const onToggleIsSidebarOpen = () => {
+    setIsSidebarOpen(prev => !prev);
+  };
   return (
-    <header className={'h-88 flex justify-between items-center p-20 bg-pink-50'}>
-      {/* <Hamburger /> */}
+    <>
+    <header className={'flex justify-between items-center p-20 z-10 relative top-0 left-0 bottom-0 w-full h-88 bg-gray-100'}>
       <button
         className={'cursor-pointer'}
         onClick={() => onToggleIsSidebarOpen()}
       >
         <RxHamburgerMenu size={24} />
       </button>
-      <p className={'ml-10 text-18'} >This is Oden App</p>
       <Setting />
     </header>
+    {isSidebarOpen && <Sidebar />}
+    </>
   );
 };
