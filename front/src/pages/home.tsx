@@ -6,6 +6,7 @@ export const Home = () => {
   const [isAuto, setAuto] = useState(false);
   return (
     <>
+    <div className = 'z-0'>
       <nav className="nav">
         <ul>
           <li onClick={() => setAuto(true)}>自動入力</li>
@@ -13,6 +14,13 @@ export const Home = () => {
         </ul>
       </nav>
       {isAuto ? <AutoInput /> : <ManualInput />}
+      </div>
     </>
   );
 };
+
+<div>
+  <header></header>
+  <nav></nav>
+  <div></div>
+</div>

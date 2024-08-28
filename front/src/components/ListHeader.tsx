@@ -4,7 +4,7 @@ export const ListHeader = () => {
   const navigate = useNavigate();
 
   const handleBackToHome = () => {
-    navigate("/auto");
+    navigate("/home");
   };
 
   return (

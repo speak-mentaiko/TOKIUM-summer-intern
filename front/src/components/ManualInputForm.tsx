@@ -50,15 +50,17 @@ export const ManualInputForm = ({ route = {} }) => {
     })
     .catch((error) => console.log(error));
 
-    alert('submitted!')
-    navigate('/auto');
+    alert('submitted!');
+    navigate('/home');
   };
 
-  const addViaSpots = () =>{
+  const addViaSpots = (event) =>{
+    event.preventDefault();
     if (count <= 3){setCount(count +1)};
   };
 
-  const removeViaSpots = () =>{
+  const removeViaSpots = (event) =>{
+    event.preventDefault();
     if (count >= 1){setCount(count - 1)};
   };  
 
