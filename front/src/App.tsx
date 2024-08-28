@@ -11,6 +11,7 @@ import { Home } from "./pages/home.tsx";
 import { RouteListPage } from "./pages/RouteListPage.tsx";
 import { ApplicationListPage } from "./pages/ApplicationListPage.tsx";
 import { Sign } from "./pages/Sign.tsx";
+import { Page404 } from "./pages/Page404.tsx";
 
 export const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -24,6 +25,7 @@ export const App = () => {
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
+            <Route path="/signin" element={<Sign />} />
             {isSidebarOpen ? (
               <Route
                 index
@@ -52,7 +54,7 @@ export const App = () => {
               element={<RouteRegistration />}
             />
             <Route path="/list/application" element={<ApplicationListPage />} />
-            <Route path="/sign" element={<Sign />} />
+            <Route path="*" element={<Page404 />} />
           </Routes>
           <p className="text-blue-500 text-3xl font-bold underline bg-black">
             Hello world!
