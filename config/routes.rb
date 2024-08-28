@@ -15,8 +15,8 @@ Rails.application.routes.draw do
       post '/signup/:role', to: 'signup#role'
       namespace :routes do
         resources :list, only: [:index]
-        post 'list', to: 'list#index'
-        get 'list/:route_id', to: 'list#route'
+        post '/list', to: 'list#index'
+        get '/list/:route_id', to: 'list#route'
       end
     end
   end
