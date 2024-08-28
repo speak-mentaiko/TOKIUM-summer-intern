@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Api::V2::CostsController < ApplicationController
 
   def cost_list
@@ -25,6 +27,7 @@ class Api::V2::CostsController < ApplicationController
   def cost_request
     (render json: {error: "method error"}, status:  :bad_request and return)if request.method == "GET"
     cost = Cost.new(_get_cost_params)
+    cost.cost_id = SecureRandom.uuid
     (render json: {error: "Detected Unauthorized access"}, status:  :forbidden and return)unless  User.where(user_id: cost[:user_id]).any?
     if cost.save
       render json: { status: 'SUCCESS', data: cost }
@@ -34,17 +37,20 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_approval
+    @temp = User.where(part: "pvt")
+    @user_info = @temp.where(user_id: params[:approval_user_id])
+    (render json: {error: "Detected Unauthorized access"}, status:  :forbidden and return)if @user_info.empty?
     approval_data = _get_approval_params
     cost = Cost.find_by(cost_id: approval_data["cost_id"])
-    cost.approval_user_id = approval_data["approval_user_id"]
-    cost.approval_status = approval_data["approval_status"]
-    cost.approval_date = approval_data["approval_date"]
-    cost.approval_message = approval_data["approval_message"]
-    if cost.save
-      render json: { status: 'SUCCESS', data: cost }
-    else
-      render json: { status: 'ERROR', data: cost.errors }
-    end
+      cost.approval_user_id = approval_data["approval_user_id"]
+      cost.approval_status = approval_data["approval_status"]
+      cost.approval_date = approval_data["approval_date"]
+      cost.approval_message = approval_data["approval_message"]
+      if cost.save
+        render json: { status: 'SUCCESS', data: cost }
+      else
+        render json: { status: 'ERROR', data: cost.errors }
+      end
   end
 
   private

@@ -35,6 +35,9 @@ Rails.application.routes.draw do
 
       post '/costs/approval', to: 'costs#cost_approval'
       get '/costs/approval', to: 'errors#mismatch_method'
+
+      get '/user/:user_id', to: 'user#index'
+      post '/user/:user_id', to: 'errors#mismatch_method'
     end
   end
 
