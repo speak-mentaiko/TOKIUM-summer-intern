@@ -1,0 +1,50 @@
+import { Routes, Route } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import { Header } from "../components/Header";
+import { Sign } from "../pages/Sign.tsx";
+import { Page404 } from "../pages/Page404.tsx";
+import { Home } from "../pages/home.tsx";
+import { RouteListPage } from "../pages/RouteListPage.tsx";
+import { ApplicationListPage } from "../pages/ApplicationListPage.tsx";
+import { RouteRegistration } from "./routelist/RouteRegistration.tsx";
+import { Signout } from "../pages/Signout.tsx";
+import { userState } from "../hooks/userState.ts";
+
+export const Routing = () => {
+  const userId = useRecoilValue(userState);
+  console.log(userId);
+
+  if (userId) {
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route key="home" index path="/home" element={<Home />} />
+          <Route
+            key="list_route"
+            path="/list/route"
+            element={<RouteListPage />}
+          />
+          <Route
+            path="/list/route/registration"
+            element={<RouteRegistration />}
+          />
+          <Route path="/list/application" element={<ApplicationListPage />} />
+          <Route path="/signout" element={<Signout />} />
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Routes>
+          <Route index path="/signin" element={<Sign />} />
+          <Route path="/signout" element={<Signout />} />
+          <Route path="*" element={<Page404 />} />
+        </Routes>
+      </>
+    );
+  }
+};

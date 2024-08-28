@@ -1,6 +1,7 @@
 import { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+
 import { userState } from "../hooks/userState";
 
 export const Signin = () => {
@@ -8,7 +9,7 @@ export const Signin = () => {
   const navigate = useNavigate();
 
   const [error, setError] = useState();
-  const [, setUserId] = useRecoilState(userState);
+  const [userId, setUserId] = useRecoilState(userState);
 
   const signInSubmit: FormEventHandler<HTMLFormElement> = (event: any) => {
     event.preventDefault();
@@ -32,7 +33,6 @@ export const Signin = () => {
           navigate("/home");
         } else {
           setError(json.error);
-          console.log(json.error);
         }
       });
   };
