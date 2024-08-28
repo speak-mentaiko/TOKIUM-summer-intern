@@ -1,11 +1,6 @@
 class Api::V2::CostsController < ApplicationController
   def cost_list
-    render json: {error: "method error"}, status: :bad_request and return if request.post?
     list = Cost.where(user_id: params[:user_id])
-    if list.nil?
-      render json: {error: "Detected unauthorized access"}, status: 401 and return
-    end
-
     cost_list = []
 
     list.each do |x|
@@ -16,7 +11,6 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_more
-    render json: {error: "method error"}, status: :bad_request and return if request.post?
     cost = Cost.find_by(cost_id: params[:cost_id])
     if cost
       render json: { status: 'SUCCESS', data: cost }
@@ -26,16 +20,7 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_request
-    if request.get?
-      render json: {error: "method error"}, status: :bad_request and return
-    end
-
     cost = Cost.new(_get_cost_params)
-
-    if params[:user_id] == nil || User.where(user_id: params[:user_id]).nil?
-      render json: { error: "Detected unauthorized access"}, status: :unauthorized and return
-    end
-
     if cost.save
       render json: { status: 'SUCCESS', data: cost }
     else
@@ -44,9 +29,7 @@ class Api::V2::CostsController < ApplicationController
   end
 
   def cost_approval
-    (render json: {error: "method error"}, status: :bad_request and return )if request.post?
     approval_data = _get_approval_params
-
     cost = Cost.find_by(cost_id: approval_data["cost_id"])
     cost.approval_user_id = approval_data["approval_user_id"]
     cost.approval_status = approval_data["approval_status"]
