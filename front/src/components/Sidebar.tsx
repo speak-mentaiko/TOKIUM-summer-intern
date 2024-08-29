@@ -1,5 +1,10 @@
 import { useRecoilValue } from "recoil";
-import { AiFillDashboard, AiOutlineHome } from "react-icons/ai";
+import {
+  AiFillDashboard,
+  AiOutlineHome,
+  AiOutlineCheckCircle,
+} from "react-icons/ai";
+import {} from "react-icons/ai";
 import { PiSignOutBold, PiMapPinLight } from "react-icons/pi";
 
 import { NavigationItem } from "./NavigationItem.tsx";
@@ -33,7 +38,7 @@ export const Sidebar = () => {
             name={"経路一覧"}
           />
           <NavigationItem
-            Icon={AiFillDashboard}
+            Icon={AiOutlineCheckCircle}
             to={"/list/approval"}
             name={"経費承認"}
           />
