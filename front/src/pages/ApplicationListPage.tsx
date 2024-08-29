@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
-import { userState } from "../hooks/userState.ts";
 import { ApplicationCard } from "../components/ApplicationCard.tsx";
+import { userState } from "../hooks/userState.ts";
 
 type cost = {
   cost_id: string;
@@ -40,8 +40,12 @@ export const ApplicationListPage = () => {
       </>
     );
   } else {
-    costList.map((cost: cost) => {
-      return <ApplicationCard application={cost} />;
-    });
+    return (
+      <>
+        {costList.map((cost: cost) => {
+          return <ApplicationCard application={cost} />;
+        })}
+      </>
+    );
   }
 };

@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 export const ApplicationCard = ({ application }) => {
+  console.log("test");
   return (
     <>
       <Link to={`/list/application/${application.cost_id}`}>

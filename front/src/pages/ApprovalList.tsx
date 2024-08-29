@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 
-type cost = {
-  cost_id: string;
-  user_id: string;
-  date: string;
-  visit: string;
-};
+import { ApprovalCard } from "../components/ApprovalCard";
+import { cost } from "../types/cost";
 
 export const ApprovalList = () => {
   const API_BASE_URL = "http://localhost:3000";
@@ -18,12 +14,8 @@ export const ApprovalList = () => {
     })
       .then((res) => res.json())
       .then((json) => {
-        if (json.status === "SUCCESS") {
-          setRequestList(json.data);
-          console.log(json.data);
-        } else {
-          console.log("error");
-        }
+        console.log(json);
+        setRequestList(json);
       });
   }, []);
 
@@ -34,8 +26,12 @@ export const ApprovalList = () => {
       </>
     );
   } else {
-    requestList.map((cost: cost) => {
-      return <ApplicationCard application={cost} />;
-    });
+    return (
+      <>
+        {requestList.map((cost: cost) => {
+          return <ApprovalCard {...cost} />;
+        })}
+      </>
+    );
   }
 };

@@ -12,10 +12,11 @@ import { RouteRegistration } from "./routelist/RouteRegistration.tsx";
 import { ApprovalList } from "../pages/ApprovalList.tsx";
 import { Signout } from "../pages/Signout.tsx";
 import { userState } from "../hooks/userState.ts";
+import { Approval } from "../pages/Approval.tsx";
 
 export const Routing = () => {
   const userId = useRecoilValue(userState);
-  console.log(userId);
+  console.log(userId.user_id);
 
   if (userId.part === "pvt") {
     return (
@@ -35,7 +36,7 @@ export const Routing = () => {
           <Route path="/list/application" element={<ApplicationListPage />} />
           <Route path="/list/application/:costId" element={<Application />} />
           <Route path="/list/approval" element={<ApprovalList />} />
-          <Route path="/list/approval/:costId" element={<Application />} />
+          <Route path="/list/approval/:costId" element={<Approval />} />
           <Route path="/signout" element={<Signout />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
