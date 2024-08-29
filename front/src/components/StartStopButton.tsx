@@ -97,9 +97,12 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps) => {
               value="company car"
               checked={meansOfTransport === "company car"}
               onChange={handleTransportChange}
+              class="hidden peer"
             />
-            <label htmlFor="contactChoice1">社用車</label>
+            <label htmlFor="contactChoice1" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">社用車</label>
+          </div>
 
+          <div>
             <input
               type="radio"
               id="contactChoice2"
@@ -107,9 +110,11 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps) => {
               value="public transport"
               checked={meansOfTransport === "public transport"}
               onChange={handleTransportChange}
+              class="hidden peer"
             />
-            <label htmlFor="contactChoice2">公共交通機関</label>
-
+            <label htmlFor="contactChoice2" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">公共交通機関</label>
+          </div>
+          <div>
             <input
               type="radio"
               id="contactChoice3"
@@ -117,8 +122,9 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps) => {
               value="taxi"
               checked={meansOfTransport === "taxi"}
               onChange={handleTransportChange}
+              class="hidden peer"
             />
-            <label htmlFor="contactChoice3">タクシー</label>
+            <label htmlFor="contactChoice3" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">タクシー</label>
           </div>
         </fieldset>
       </form>
