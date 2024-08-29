@@ -1,9 +1,10 @@
-import React from "react";
+import { AiOutlineHome } from "react-icons/ai";
+import { AiOutlineSetting } from "react-icons/ai";
 
 export const Setting = () => {
   return (
     <>
-      <div>#Setting</div>
+      <AiOutlineSetting size={24} />
     </>
   );
 };

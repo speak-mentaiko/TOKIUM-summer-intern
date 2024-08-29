@@ -4,8 +4,9 @@ import { useRecoilValue } from "recoil";
 import { Header } from "../components/Header";
 import { Sign } from "../pages/Sign.tsx";
 import { Page404 } from "../pages/Page404.tsx";
-import { Home } from "../pages/home.tsx";
+import { Home } from "../pages/Home.tsx";
 import { RouteListPage } from "../pages/RouteListPage.tsx";
+import { Application } from "../pages/Application.tsx";
 import { ApplicationListPage } from "../pages/ApplicationListPage.tsx";
 import { RouteRegistration } from "./routelist/RouteRegistration.tsx";
 import { Signout } from "../pages/Signout.tsx";
@@ -31,6 +32,7 @@ export const Routing = () => {
             element={<RouteRegistration />}
           />
           <Route path="/list/application" element={<ApplicationListPage />} />
+          <Route path="/list/application/:costId" element={<Application />} />
           <Route path="/signout" element={<Signout />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
