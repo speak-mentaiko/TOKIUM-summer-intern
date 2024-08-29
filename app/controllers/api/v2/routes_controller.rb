@@ -17,7 +17,7 @@ class Api::V2::RoutesController < ApplicationController
       way = params[:way]
 
       data_arr = []
-      if User.where(user_id: user_id).empty?
+      if User.where(user_id: user_id).nil?
         render json: {errors: "Detected unauthorized access"}, status: 403 and return
       end
 
