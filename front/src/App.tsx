@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 
 import { Header } from "./components/Header.tsx";
 import { RouteRegistration } from "./components/routelist/RouteRegistration.tsx";
-import { Home } from "./pages/home.tsx";
+import { Home } from "./pages/Home.tsx";
 // import { AutoInput } from "./pages/AutoInput.tsx";
 // import { ManualInput } from "./pages/ManualInput.tsx";
 import { RouteListPage } from "./pages/RouteListPage.tsx";
