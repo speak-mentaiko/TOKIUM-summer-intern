@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../hooks/userState.ts";
 
 interface StartStopButtonProps {
   onStopClick: () => void;
@@ -6,6 +8,8 @@ interface StartStopButtonProps {
 
 export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const API_BASE_URL = "http://localhost:3000/";
+  const userId = useRecoilValue(userState);
+  // console.log(userId)
 
   const [watchStatus, setWatchStatus] = useState({
     isWatching: false,
@@ -51,7 +55,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
     if (watchStatus.isWatching) {
       console.log(JSON.stringify(loclist));
       const routeForPost = JSON.stringify({
-          user_id: 'tokium',
+          user_id: userId,
           way: meansOfTransport,
           data: loclist
         });
