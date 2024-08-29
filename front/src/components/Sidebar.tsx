@@ -1,13 +1,14 @@
-// import { useState } from 'react';
 import { AiFillDashboard } from "react-icons/ai";
 import { BsGraphUpArrow } from "react-icons/bs";
 import { HiOutlineUserGroup } from "react-icons/hi";
+import { PiSignOutBold } from "react-icons/pi";
 
 import { NavigationItem } from "./NavigationItem.tsx";
 import { useIsSidebarOpenState } from "../hooks/isSidebarOpen.ts";
 
 export const Sidebar = () => {
   const isSidebarOpen = useIsSidebarOpenState();
+
   return (
     <>
       <nav
@@ -26,6 +27,11 @@ export const Sidebar = () => {
           name={"経路一覧"}
         />
         <NavigationItem Icon={BsGraphUpArrow} to={"/home"} name={"HOME"} />
+        <NavigationItem
+          Icon={PiSignOutBold}
+          to={"/signout"}
+          name={"サインアウト"}
+        />
       </nav>
     </>
   );
