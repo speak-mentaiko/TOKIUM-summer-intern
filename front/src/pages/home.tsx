@@ -21,16 +21,6 @@ export const Home = () => {
               </li>
             </ul>
           </nav>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
           <div className="min-h-screen">
             {isAuto ? <AutoInput /> : <ManualInput />}
           </div>

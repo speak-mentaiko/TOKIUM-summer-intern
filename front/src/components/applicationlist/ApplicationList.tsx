@@ -1,5 +1,5 @@
 import React from "react";
-import { Application } from "./application.tsx";
+import { Application } from "./Application.tsx";
 
 export const ApplicationList = ({ applicationListItems }) => {
   return applicationListItems.map((application) => (

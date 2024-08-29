@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 export const Route = ({ route }) => {
   const navigate = useNavigate();
   const goToRouteRegistration = () => {
-    navigate("./registration", { state: { route } });
+    console.log(route.route_id);
+    navigate("./registration", { state: {id : route.route_id} });
   };
 
   return (

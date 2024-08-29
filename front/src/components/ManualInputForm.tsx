@@ -1,4 +1,4 @@
-import React,  {useState} from 'react';
+import React,  {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { format } from 'date-fns';
@@ -19,13 +19,49 @@ type Inputs = {
   memo: string
 };
 
-export const ManualInputForm = ({ route = {} }) => {
+interface  ManualInputFormProps{
+  route : {
+  id: number;
+  route_id: string; // UUIDは通常文字列として扱います
+  from: string;
+  via0?: string; // オプショナルプロパティとして定義
+  via1?: string;
+  via2?: string;
+  via3?: string;
+  via4?: string;
+  to: string;
+  way: string;
+  amount: string;
+  distance: number; // 数値として定義
+  created_at: string; // ISO8601形式の日時文字列
+  updated_at: string; // ISO8601形式の日時文字列
+}}
+
+export const ManualInputForm = ({ route = {} }:ManualInputFormProps) => {
   const API_BASE_URL = "http://localhost:3000/";
   const navigate = useNavigate();
   const [count, setCount] = useState<number>(0);
 
-  const today = new Date()
-  const defaultDate = format(today, 'yyyy-MM-dd')
+ const amount = route.amount && parseInt(route.amount.replace(/[^0-9]/g, ''), 10);
+
+  const [defaultDate, setDefaultDate] = useState<string>();
+
+  const formatDate = (inputDate: string): string => {
+    const date = new Date(inputDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月は0から始まるため+1
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  };
+
+  useEffect(() => {
+    setDefaultDate(
+      route.created_at 
+      ? formatDate(route.created_at) 
+      : format(new Date(), 'yyyy-MM-dd')
+      );
+    },[route])
 
   const {
     register,
@@ -88,19 +124,19 @@ export const ManualInputForm = ({ route = {} }) => {
 
         {count >= 1 && (<>
           <label htmlFor="route_via1">経由1:</label><button onClick = {removeViaSpots}>-</button><br /><br />
-          <input {...register("route_via1")} /><br /><br /></>)}
+          <input defaultValue = {route.via0} {...register("route_via1")} /><br /><br /></>)}
 
         {count >= 2 && (<>
           <label htmlFor="route_via2">経由2:</label><button onClick = {removeViaSpots}>-</button><br />
-          <input {...register("route_via2")} /><br /><br /></>)}
+          <input defaultValue = {route.via1} {...register("route_via2")} /><br /><br /></>)}
 
           {count >= 3 && (<>
           <label htmlFor="route_via3">経由3:</label><button onClick = {removeViaSpots}>-</button><br />
-          <input {...register("route_via3")} /><br /><br /></>)}
+          <input defaultValue = {route.via2} {...register("route_via3")} /><br /><br /></>)}
 
           {count >= 4 && (<>
           <label htmlFor="route_via4">経由4:</label><button onClick = {removeViaSpots}>-</button><br />
-          <input {...register("route_via4")} /><br /><br /></>)}
+          <input defaultValue = {route.via3} {...register("route_via4")} /><br /><br /></>)}
 
         </ fieldset>
 
@@ -108,16 +144,17 @@ export const ManualInputForm = ({ route = {} }) => {
         <input defaultValue = {route.to} {...register("route_to")} required /><br /><br />
 
         <label htmlFor="route_way">ルートの移動手段:</label><br />
-        <input {...register("route_way")} /><br /><br />
+        <input defaultValue = {route.way} {...register("route_way")} /><br /><br />
 
         <label htmlFor="route_amount">金額:</label><br />
-        <input {...register("route_amount")} type="number" required /><br /><br />
+        <input defaultValue = {amount} {...register("route_amount")} type="number" required /><br /><br />
 
         <label htmlFor="memo">メモ:</label><br />
         <textarea {...register("memo")} /><br /><br />
 
         <button type="submit">submit</button>
       </form>
+      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </>
   );
 };
