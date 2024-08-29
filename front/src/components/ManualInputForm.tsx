@@ -1,8 +1,11 @@
 import React,  {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import { useRecoilValue } from "recoil";
 import { format } from 'date-fns';
-// この2つはinstallしました
+// これはinstallしました
+import { userState } from "../hooks/userState.ts";
+
 type Inputs = {
   date: Date, //利用日
   visit: string, //訪問先
@@ -42,7 +45,9 @@ export const ManualInputForm = ({ route = {} }:ManualInputFormProps) => {
   const navigate = useNavigate();
   const [count, setCount] = useState<number>(0);
 
- const amount = route.amount && parseInt(route.amount.replace(/[^0-9]/g, ''), 10);
+  const userId = useRecoilValue(userState);
+
+  const amount = route.amount && parseInt(route.amount.replace(/[^0-9]/g, ''), 10);
 
   const [defaultDate, setDefaultDate] = useState<string>();
 
@@ -63,21 +68,16 @@ export const ManualInputForm = ({ route = {} }:ManualInputFormProps) => {
       );
     },[route])
 
-  const {
-    register,
-    // watch,
-    getValues,
-    // formState: { errors }
-  } = useForm<Inputs>();
+  const {register, getValues} = useForm<Inputs>();
 
   const onFormSubmit = (event) => {
     event.preventDefault();
     let inputRoute = getValues();
-    // inputRoute["test"] = "test";
+    inputRoute["user_id"] = userId;
     // こんな感じで追加できます
     console.log(inputRoute)
 
-    fetch(`${API_BASE_URL}/costs/request`, {
+    fetch(`${API_BASE_URL}/api/v2/costs/request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -11,7 +11,7 @@ class Api::V2::CostsController < ApplicationController
       cost = {cost_id: x.cost_id, user_id: x.user_id, date:x.date, visit:x.visit}
       cost_list.push(cost)
     end
-    render json: { status: 'SUCCESS', data: cost_list }
+    render json: { status: 'SUCCESS', data: list }
   end
 
   def cost_more
