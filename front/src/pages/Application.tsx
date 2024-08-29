@@ -30,7 +30,7 @@ export const Application = () => {
   const [costData, setCostData] = useState<costData | undefined>(undefined);
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v2/costs/list/${costId}`, {
+    fetch(`${API_BASE_URL}/api/v2/costs/list/${costId.user_id}`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -43,6 +43,7 @@ export const Application = () => {
         }
       });
   }, []);
+
   return (
     <>
       <div>

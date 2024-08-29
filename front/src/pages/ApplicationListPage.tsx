@@ -14,11 +14,12 @@ type cost = {
 export const ApplicationListPage = () => {
   const API_BASE_URL = "http://localhost:3000";
   const userId = useRecoilValue(userState);
+  console.log(userId);
 
   const [costList, setCostList] = useState<cost[]>([]);
   //APIでデータを取得
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/v2/costs/request/list/${userId}`, {
+    fetch(`${API_BASE_URL}/api/v2/costs/request/list/${userId.user_id}`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -32,12 +33,15 @@ export const ApplicationListPage = () => {
       });
   }, []);
 
-  return (
-    <>
-      <div>#ApplicationListPage</div>
-      {costList.map((cost: cost) => {
-        return <ApplicationCard application={cost} />;
-      })}
-    </>
-  );
+  if (!costList.length) {
+    return (
+      <>
+        <p>データがありません</p>
+      </>
+    );
+  } else {
+    costList.map((cost: cost) => {
+      return <ApplicationCard application={cost} />;
+    });
+  }
 };
