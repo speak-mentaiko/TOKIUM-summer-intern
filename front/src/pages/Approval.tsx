@@ -67,25 +67,34 @@ export const Approval = () => {
 
   return (
     <>
-      <ShowCostData {...costData} />
-      <form onSubmit={approvalSubmit}>
-        <label>
-          承認:
-          <select name="status">
-            <option value="">選択してください</option>
-            <option value="approval">承認</option>
-            <option value="reject">差し戻し</option>
-          </select>
-        </label>
-        <label>
-          メッセージ:
-          <input type="textarea" name="message" defaultValue="" />
-        </label>
-        <button>
-          <input type="submit" value="Submit" />
-        </button>
-      </form>
-      <Link to="/list/application">戻る</Link>
+      <div className={"flex flex-col items-center gap-4 w-full bg-pink-100"}>
+        <ShowCostData {...costData} />
+        <div className={"mt-30"}>
+          <form
+            onSubmit={approvalSubmit}
+            className={"flex flex-col items-center gap-2"}
+          >
+            <label>
+              承認：
+              <select name="status">
+                <option value="">選択してください</option>
+                <option value="approval">承認</option>
+                <option value="reject">差し戻し</option>
+              </select>
+            </label>
+            <label>
+              メッセージ：
+              <input type="textarea" name="message" defaultValue="" />
+            </label>
+            <button className={"p-8 rounded-8 bg-gray-200"}>
+              <input type="submit" value="Submit" />
+            </button>
+          </form>
+        </div>
+        <Link to="/list/approval" className={"px-8 py-4 rounded-8 bg-gray-200"}>
+          戻る
+        </Link>
+      </div>
     </>
   );
 };
