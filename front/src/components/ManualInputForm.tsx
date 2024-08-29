@@ -41,7 +41,7 @@ export const ManualInputForm = ({ route = {} }) => {
     // こんな感じで追加できます
     console.log(inputRoute)
 
-    fetch(`${API_BASE_URL}/costs/request`, {
+    fetch(`${API_BASE_URL}api/v2/costs/request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

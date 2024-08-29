@@ -13,7 +13,7 @@ const getToLocalStorage = () => {
     return "";
   }
   const value = window.localStorage.getItem("userId");
-  return value ? value : "";
+  return value ? JSON.parse(value) : "";
 };
 
 const saveToLocalStorage = (value: userData) => {
