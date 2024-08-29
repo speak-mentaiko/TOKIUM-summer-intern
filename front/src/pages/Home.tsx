@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { AutoInput } from "./AutoInput";
 import { ManualInput } from "./ManualInput";
 

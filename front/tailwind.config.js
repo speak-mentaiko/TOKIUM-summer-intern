@@ -133,21 +133,21 @@ module.exports = {
       auto: 'auto',
       fit: 'fit-content',
     },
-    // height: {
-    //   ...[...Array(1001)].reduce((m, _, i) => {
-    //     m[i] = `${i}px`;
-    //     return m;
-    //   }, {}),
-    //   ...[...Array(101)].reduce((m, _, i) => {
-    //     m[`${i}p`] = `${i}%`;
-    //     return m;
-    //   }, {}),
-    //   ...[...Array(101)].reduce((m, _, i) => {
-    //     m[`${i}vh`] = `${i}vh`;
-    //     return m;
-    //   }, {}),
-    //   fit: 'fit-content',
-    // },
+    height: {
+      ...[...Array(1001)].reduce((m, _, i) => {
+        m[i] = `${i}px`;
+        return m;
+      }, {}),
+      ...[...Array(101)].reduce((m, _, i) => {
+        m[`${i}p`] = `${i}%`;
+        return m;
+      }, {}),
+      ...[...Array(101)].reduce((m, _, i) => {
+        m[`${i}vh`] = `${i}vh`;
+        return m;
+      }, {}),
+      fit: 'fit-content',
+    },
     lineHeight: {
       ...[...Array(101)].reduce((m, _, i) => {
         m[i] = `${i}px`;

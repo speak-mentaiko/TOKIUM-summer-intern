@@ -29,7 +29,7 @@ export const Signin = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.user_id) {
-          setUserId(json.user_id);
+          setUserId(json);
           navigate("/home");
         } else {
           setError(json.error);
