@@ -38,6 +38,9 @@ Rails.application.routes.draw do
 
       get '/user/:user_id', to: 'user#index'
       post '/user/:user_id', to: 'errors#mismatch_method'
+
+      get '/costs/request/list', to: 'costs#cost_all_list'
+      post '/costs/request/list/', to: 'errors#mismatch_method'
     end
   end
 
