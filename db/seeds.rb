@@ -9,7 +9,7 @@
  require 'securerandom'
 
 User.create!(
-  user_id: SecureRandom.uuid,
+  user_id: "tokium",
   name: "Master Mirror",
   email: "example@example.com",
   password: "example",

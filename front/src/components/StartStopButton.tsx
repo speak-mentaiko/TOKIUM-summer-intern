@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MeansOfTransportationSwitch } from "./MeansOfTransportationSwitch.tsx";
+import { useRecoilValue } from "recoil";
+import { userState } from "../hooks/userState.ts";
 
 interface StartStopButtonProps {
   onStopClick: () => void;
@@ -7,6 +8,8 @@ interface StartStopButtonProps {
 
 export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const API_BASE_URL = "http://localhost:3000/";
+  const userId = useRecoilValue(userState);
+  // console.log(userId)
 
   const [watchStatus, setWatchStatus] = useState({
     isWatching: false,
@@ -14,6 +17,11 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
     intervalId: null,
   });
   const [loclist, setLoclist] = useState([]);
+  const [meansOfTransport, setMeansOfTransport] = useState("public transport");
+
+  const handleTransportChange = (event) => {
+    setMeansOfTransport(event.target.value); 
+  };
 
 
   const startWatchPosition = () => {
@@ -37,7 +45,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
         setLoclist((prevLoclist) => {
           return [...prevLoclist, { longitude: lon, latitude: lat }];
         });
-      }, 10000);
+      }, 1000);
 
       setWatchStatus({ isWatching: true, watchId, intervalId });
     }
@@ -46,17 +54,23 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const stopWatchPosition = () => {
     if (watchStatus.isWatching) {
       console.log(JSON.stringify(loclist));
+      const routeForPost = JSON.stringify({
+          user_id: userId,
+          way: meansOfTransport,
+          data: loclist
+        });
+      console.log(routeForPost)
 
       clearInterval(watchStatus.intervalId);
       navigator.geolocation.clearWatch(watchStatus.watchId);
       setWatchStatus({ isWatching: false, watchId: null, intervalId: null });
 
-      fetch(`${API_BASE_URL}/api/v1/routes`, {
+      fetch(`${API_BASE_URL}api/v2/routes`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(loclist),
+        body: routeForPost,
       })
         .then((response) => response.json())
         .then((data) => {
@@ -74,8 +88,41 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
 
   return (
     <>
-      <div>#StarStopButton</div>
-      <MeansOfTransportationSwitch />
+      <form>
+        <fieldset>
+          <div>
+            <input
+              type="radio"
+              id="contactChoice1"
+              name="contact"
+              value="company car"
+              checked={meansOfTransport === "company car"}
+              onChange = {handleTransportChange}
+            />
+            <label htmlFor="contactChoice1">社用車</label>
+
+            <input
+              type="radio"
+              id="contactChoice2"
+              name="contact"
+              value="public transport"
+              checked={meansOfTransport === "public transport"}
+              onChange = {handleTransportChange}
+            />
+            <label htmlFor="contactChoice2">公共交通機関</label>
+
+            <input
+              type="radio"
+              id="contactChoice3"
+              name="contact"
+              value="taxi"
+              checked={meansOfTransport === "taxi"}
+              onChange = {handleTransportChange}
+            />
+            <label htmlFor="contactChoice3">タクシー</label>
+          </div>
+        </fieldset>
+      </form>
 
       {watchStatus.isWatching ? (
         <button onClick={stopWatchPosition}>Stop</button>
