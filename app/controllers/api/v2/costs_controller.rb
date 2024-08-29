@@ -53,6 +53,16 @@ class Api::V2::CostsController < ApplicationController
       end
   end
 
+  def cost_all_list
+    all_costs = Cost.all
+    costs = []
+
+    all_costs.each do |x|
+      costs.push({cost_id: x.cost_id, user_id: x.user_id, date:x.date, visit:x.visit})
+    end
+    render json: costs, status:  :ok and return
+  end
+
   private
 
   def _get_cost_params
