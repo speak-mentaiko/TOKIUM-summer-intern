@@ -212,6 +212,10 @@ class Api::V2::RoutesController < ApplicationController
     html = Nokogiri::HTML.parse(body, nil, charset)
 
     s1 =html.css('div.data_line_1').css('dd').css('b')
-    return s1[0].text
+    unless s1.empty?
+      return s1[0].text
+    else
+      return "Route not found"
+    end
   end
 end
