@@ -48,8 +48,8 @@ services:
       TEST_HOSTNAME: test_db
     command: >
       bash -c
-      "bundle exec rails db:create &&
-      bundle exec rails db:migrate:reset &&
+      "bundle exec bin/rails db:create &&
+      bundle exec bin/rails db:migrate:reset &&
       bundle exec spring server"
     volumes:
       - .:/app
