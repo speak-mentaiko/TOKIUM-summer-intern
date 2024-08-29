@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { ShowCostData } from "../components/Showcostdata";
 import { costData } from "../types/costData";
 
-export const Application = () => {
+export const Approval = () => {
   const API_BASE_URL = "http://localhost:3000";
   const { costId } = useParams<{ costId: string }>();
   const [costData, setCostData] = useState<costData | undefined>(undefined);
