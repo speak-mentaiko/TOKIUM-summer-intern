@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { Header } from "../components/Header";
 import { Sign } from "../pages/Sign.tsx";
 import { Page404 } from "../pages/Page404.tsx";
-import { Home } from "../pages/home.tsx";
+import { Home } from "../pages/Home.tsx";
 import { RouteListPage } from "../pages/RouteListPage.tsx";
 import { ApplicationListPage } from "../pages/ApplicationListPage.tsx";
 import { RouteRegistration } from "./routelist/RouteRegistration.tsx";
