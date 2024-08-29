@@ -6,7 +6,7 @@ interface StartStopButtonProps {
   onStopClick: () => void;
 }
 
-export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
+export const StartStopButton = ({ onStopClick }: StartStopButtonProps) => {
   const API_BASE_URL = "http://localhost:3000/";
   const userId = useRecoilValue(userState);
   // console.log(userId)
@@ -20,9 +20,8 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
   const [meansOfTransport, setMeansOfTransport] = useState("public transport");
 
   const handleTransportChange = (event) => {
-    setMeansOfTransport(event.target.value); 
+    setMeansOfTransport(event.target.value);
   };
-
 
   const startWatchPosition = () => {
     if (!watchStatus.isWatching) {
@@ -45,7 +44,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
         setLoclist((prevLoclist) => {
           return [...prevLoclist, { longitude: lon, latitude: lat }];
         });
-      }, 1000);
+      }, 10000);
 
       setWatchStatus({ isWatching: true, watchId, intervalId });
     }
@@ -55,11 +54,11 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
     if (watchStatus.isWatching) {
       console.log(JSON.stringify(loclist));
       const routeForPost = JSON.stringify({
-          user_id: userId,
-          way: meansOfTransport,
-          data: loclist
-        });
-      console.log(routeForPost)
+        user_id: userId,
+        way: meansOfTransport,
+        data: loclist,
+      });
+      console.log(routeForPost);
 
       clearInterval(watchStatus.intervalId);
       navigator.geolocation.clearWatch(watchStatus.watchId);
@@ -97,7 +96,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
               name="contact"
               value="company car"
               checked={meansOfTransport === "company car"}
-              onChange = {handleTransportChange}
+              onChange={handleTransportChange}
             />
             <label htmlFor="contactChoice1">社用車</label>
 
@@ -107,7 +106,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
               name="contact"
               value="public transport"
               checked={meansOfTransport === "public transport"}
-              onChange = {handleTransportChange}
+              onChange={handleTransportChange}
             />
             <label htmlFor="contactChoice2">公共交通機関</label>
 
@@ -117,7 +116,7 @@ export const StartStopButton = ({ onStopClick }: StartStopButtonProps)  => {
               name="contact"
               value="taxi"
               checked={meansOfTransport === "taxi"}
-              onChange = {handleTransportChange}
+              onChange={handleTransportChange}
             />
             <label htmlFor="contactChoice3">タクシー</label>
           </div>

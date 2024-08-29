@@ -40,7 +40,7 @@ export const Signup = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.user_id) {
-          setUserId(json.user_id);
+          setUserId(json);
           navigate("/home");
         } else {
           console.log(json);
