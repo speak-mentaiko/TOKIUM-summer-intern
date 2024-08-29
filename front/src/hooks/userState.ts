@@ -1,5 +1,13 @@
 import { atom } from "recoil";
 
+type userData = {
+  user_id: string;
+  email: string;
+  name: string;
+  project: string;
+  part: string;
+};
+
 const getToLocalStorage = () => {
   if (typeof window === "undefined") {
     return "";
@@ -8,11 +16,11 @@ const getToLocalStorage = () => {
   return value ? value : "";
 };
 
-const saveToLocalStorage = (value: string) => {
+const saveToLocalStorage = (value: userData) => {
   if (typeof window === "undefined") {
     return;
   }
-  window.localStorage.setItem("userId", value);
+  window.localStorage.setItem("userId", JSON.stringify(value));
 };
 
 export const userState = atom<string>({

@@ -14,10 +14,14 @@ class Api::V2::SigninController < ApplicationController
 
     if @user && @user.authenticate(sign_data[:password])
       render json: {
-        user_id: @user.user_id
-      }, status: 200
+        user_id: @user.user_id,
+        email: @user.email,
+        name: @user.name,
+        project: @user.project,
+        part: @user.part
+      }, status: 200 and return
     else
-      render json: { error: "Invalid email or password" }, status: 400
+      render json: { error: "Invalid email or password" }, status: 400 and return
     end
   end
 
