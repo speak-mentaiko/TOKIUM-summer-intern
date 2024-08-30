@@ -8,7 +8,7 @@ export const ApprovalCard = (props: cost) => {
   console.log(props);
   return (
     <>
-      <div className={"w-500 h-auto rounded-8 bg-pink-100"}>
+      <div className={"w-500 h-auto rounded-8 bg-pink-100 m-8"}>
         <Link to={`/list/approval/${props.cost_id}`}>
           <dev>
             <div className={"flex justify-center gap-4 p-4"}>
