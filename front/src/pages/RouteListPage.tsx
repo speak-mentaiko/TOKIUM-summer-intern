@@ -22,7 +22,6 @@ export const RouteListPage = () => {
 
   return (
     <>
-      <div>#RouteListPage</div>
       <ListHeader />
       <RouteList routeListItems={routeListItems} />
     </>

@@ -16,7 +16,7 @@ export const Header = () => {
     <>
       <header
         className={
-          "flex justify-between items-center p-20 z-10 relative top-0 left-0 bottom-0 w-full h-88 bg-gray-100"
+          "flex justify-between items-center p-20 z-10 relative top-0 left-0 bottom-0 w-full h-88 bg-gray-300"
         }
       >
         <button

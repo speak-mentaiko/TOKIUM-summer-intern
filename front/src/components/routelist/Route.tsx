@@ -9,9 +9,11 @@ export const Route = ({ route }) => {
 
   return (
     <>
-      <div>{route.from}</div>
-      <div>{route.to}</div>
-      <button onClick={goToRouteRegistration}>登録</button>
+    <div className = 'bg-pink-50'>
+      <div>from:{route.from}</div>
+      <div>to:{route.to}</div>
+      <button className = 'bg-gray-200' onClick={goToRouteRegistration}>登録</button>
+    </div><br />
     </>
   );
 };

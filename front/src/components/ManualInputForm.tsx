@@ -136,8 +136,7 @@ useEffect(() => {
 
   return (
     <>
-      <div>#ManualInputForm</div>
-      <form onSubmit={onFormSubmit}>
+      <form className = 'bg-pink-50' onSubmit={onFormSubmit}>
         <label htmlFor="date">訪問日程:</label><br />
         <input
           name="date"
@@ -173,11 +172,11 @@ useEffect(() => {
         /><br /><br />
 
         <fieldset>
-          <button onClick={addViaSpots}>経由地を追加</button><br />
+          <button className = 'bg-gray-200' onClick={addViaSpots}>経由地を追加</button><br />
 
           {count >= 1 && (
             <>
-              <label htmlFor="route_via1">経由1:</label><button onClick={removeViaSpots}>-</button><br /><br />
+              <label htmlFor="route_via1">経由1:</label><button className = 'bg-gray-200' onClick={removeViaSpots}>-</button><br /><br />
               <input
                 name="route_via1"
                 value={formData.route_via1 || ''}
@@ -188,7 +187,7 @@ useEffect(() => {
 
           {count >= 2 && (
             <>
-              <label htmlFor="route_via2">経由2:</label><button onClick={removeViaSpots}>-</button><br />
+              <label htmlFor="route_via2">経由2:</label><button className = 'bg-gray-200' onClick={removeViaSpots}>-</button><br />
               <input
                 name="route_via2"
                 value={formData.route_via2 || ''}
@@ -199,7 +198,7 @@ useEffect(() => {
 
           {count >= 3 && (
             <>
-              <label htmlFor="route_via3">経由3:</label><button onClick={removeViaSpots}>-</button><br />
+              <label htmlFor="route_via3">経由3:</label><button className = 'bg-gray-200' onClick={removeViaSpots}>-</button><br />
               <input
                 name="route_via3"
                 value={formData.route_via3 || ''}
@@ -210,7 +209,7 @@ useEffect(() => {
 
           {count >= 4 && (
             <>
-              <label htmlFor="route_via4">経由4:</label><button onClick={removeViaSpots}>-</button><br />
+              <label htmlFor="route_via4">経由4:</label><button className = 'bg-gray-200' onClick={removeViaSpots}>-</button><br />
               <input
                 name="route_via4"
                 value={formData.route_via4 || ''}
@@ -251,9 +250,8 @@ useEffect(() => {
           onChange={handleChange}
         /><br /><br />
 
-        <button type="submit">submit</button>
+        <button className = 'bg-gray-200' type="submit">submit</button>
       </form>
-      <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </>
   );
 };

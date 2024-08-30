@@ -17,7 +17,6 @@ export const AutoInput = () => {
 
   return (
     <>
-      {/*<div>#AutoInput</div>*/}
       {showStartStopButtonStatus ? (
         <StartStopButton onStopClick={handleStopClick} />
       ) : (
