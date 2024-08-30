@@ -14,7 +14,7 @@ type cost = {
 export const ApplicationListPage = () => {
   const API_BASE_URL = "http://localhost:3000";
   const userId = useRecoilValue(userState);
-  console.log(userId);
+  // console.log(userId);
 
   const [costList, setCostList] = useState<cost[]>([]);
   //APIでデータを取得

@@ -106,7 +106,7 @@ useEffect(() => {
 
     const inputRoute = {
       ...formData,
-      user_id: userId
+      user_id: userId.user_id
     };
 
     console.log(inputRoute)

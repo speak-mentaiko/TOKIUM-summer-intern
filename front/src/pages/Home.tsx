@@ -10,9 +10,10 @@ export const Home = () => {
     <div className="sm:hidden">
       <label htmlFor="tabs" className="sr-only"></label>
       <select id="tabs"
-              className=" justify-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option key="auto" onClick={() => setAuto(true)}>自動入力</option>
-        <option key="manual" onClick={() => setAuto(false)}>手動入力</option>
+              className=" justify-center bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange = {(e) => {setAuto(e.target.value === 'auto')}}>
+        <option key="auto" value = 'auto'>自動入力</option>
+        <option key="manual" value = 'manual'>手動入力</option>
       </select>
     </div>
     <ul className="  justify-center hidden text-sm font-28px text-center text-gray-500 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
