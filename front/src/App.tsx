@@ -1,7 +1,7 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { RecoilRoot, useRecoilValue } from "recoil";
+import { BrowserRouter } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
-import { Routing } from "./components//Routing";
+import { Routing } from "./components/Routing";
 
 export const App = () => {
   return (
