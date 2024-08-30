@@ -17,7 +17,7 @@ class Api::V2::RoutesController < ApplicationController
       way = params[:way]
 
       data_arr = []
-      if User.where(user_id: user_id).empty?
+      if User.where(user_id: user_id).nil?
         render json: {errors: "Detected unauthorized access"}, status: 403 and return
       end
 
@@ -212,6 +212,10 @@ class Api::V2::RoutesController < ApplicationController
     html = Nokogiri::HTML.parse(body, nil, charset)
 
     s1 =html.css('div.data_line_1').css('dd').css('b')
-    return s1[0].text
+    unless s1.empty?
+      return s1[0].text
+    else
+      return "Route not found"
+    end
   end
 end

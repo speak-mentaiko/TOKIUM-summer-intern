@@ -1,11 +1,51 @@
 /** @type {import('tailwindcss').Config} */
 
+
 module.exports = {
   mode: 'jit',
   // 以下コンフィグコピペ
   content: ['./src/**/*.{js,ts,jsx,tsx}','./index.html'],
   theme: {
     extend: {
+      fontFamily: {
+        'body': [
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'system-ui',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
+          'Noto Color Emoji'
+        ],
+        'sans': [
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'system-ui',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'Noto Sans',
+          'sans-serif',
+          'Apple Color Emoji',
+          'Segoe UI Emoji',
+          'Segoe UI Symbol',
+          'Noto Color Emoji'
+        ]
+      },
+      colors: {
+        primary: {"50":"#eff6ff","100":"#dbeafe","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb","700":"#1d4ed8","800":"#1e40af","900":"#1e3a8a","950":"#172554"}
+      },
       scale: {
         flip: '-1',
       },
@@ -133,21 +173,21 @@ module.exports = {
       auto: 'auto',
       fit: 'fit-content',
     },
-    // height: {
-    //   ...[...Array(1001)].reduce((m, _, i) => {
-    //     m[i] = `${i}px`;
-    //     return m;
-    //   }, {}),
-    //   ...[...Array(101)].reduce((m, _, i) => {
-    //     m[`${i}p`] = `${i}%`;
-    //     return m;
-    //   }, {}),
-    //   ...[...Array(101)].reduce((m, _, i) => {
-    //     m[`${i}vh`] = `${i}vh`;
-    //     return m;
-    //   }, {}),
-    //   fit: 'fit-content',
-    // },
+    height: {
+      ...[...Array(1001)].reduce((m, _, i) => {
+        m[i] = `${i}px`;
+        return m;
+      }, {}),
+      ...[...Array(101)].reduce((m, _, i) => {
+        m[`${i}p`] = `${i}%`;
+        return m;
+      }, {}),
+      ...[...Array(101)].reduce((m, _, i) => {
+        m[`${i}vh`] = `${i}vh`;
+        return m;
+      }, {}),
+      fit: 'fit-content',
+    },
     lineHeight: {
       ...[...Array(101)].reduce((m, _, i) => {
         m[i] = `${i}px`;

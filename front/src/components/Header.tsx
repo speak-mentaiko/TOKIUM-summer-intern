@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { AiOutlineHome } from "react-icons/ai";
+
 import { Setting } from "./Setting";
 import { Sidebar } from "./Sidebar";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -22,6 +25,9 @@ export const Header = () => {
         >
           <RxHamburgerMenu size={24} />
         </button>
+        <Link to="/home">
+          <AiOutlineHome size={24} />
+        </Link>
         <Setting />
       </header>
       {isSidebarOpen && <Sidebar />}

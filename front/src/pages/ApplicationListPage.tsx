@@ -1,32 +1,51 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { ApplicationList } from "../components/applicationlist/ApplicationList.tsx";
-import { ListHeader } from "../components/ListHeader.tsx";
+
+import { ApplicationCard } from "../components/ApplicationCard.tsx";
 import { userState } from "../hooks/userState.ts";
 
-export const ApplicationListPage = () => {
-  const API_BASE_URL = "http://localhost:3000/";
-  const userId = useRecoilValue(userState);
-  const [applicationListItems, setApplicationListItems] = useState([]);
+type cost = {
+  cost_id: string;
+  user_id: string;
+  date: string;
+  visit: string;
+};
 
+export const ApplicationListPage = () => {
+  const API_BASE_URL = "http://localhost:3000";
+  const userId = useRecoilValue(userState);
+  console.log(userId);
+
+  const [costList, setCostList] = useState<cost[]>([]);
+  //APIでデータを取得
   useEffect(() => {
-    fetch(`${API_BASE_URL}api/v2/costs/request/list/${userId}`, {
+    fetch(`${API_BASE_URL}/api/v2/costs/request/list/${userId.user_id}`, {
       method: "GET",
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.data)
-        setApplicationListItems(data.data);
-      })
-      .catch((error) => console.log(error));
-  }, []); 
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.status === "SUCCESS") {
+          setCostList(json.data);
+          console.log(json.data);
+        } else {
+          console.log("error");
+        }
+      });
+  }, []);
 
-  return (
-    <>
-      <div>#ApplicationListPage</div>
-      <ListHeader />
-      <ApplicationList applicationListItems={applicationListItems} />
-    </>
-  );
+  if (!costList.length) {
+    return (
+      <>
+        <p>データがありません</p>
+      </>
+    );
+  } else {
+    return (
+      <>
+        {costList.map((cost: cost) => {
+          return <ApplicationCard application={cost} />;
+        })}
+      </>
+    );
+  }
 };
