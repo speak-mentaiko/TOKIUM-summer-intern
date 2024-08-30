@@ -13,7 +13,6 @@ interface StartStopButtonProps {
 export const StartStopButton = ({ onStopClick }: StartStopButtonProps) => {
   const API_BASE_URL = "http://localhost:3000/";
   const userId = useRecoilValue(userState);
-  // console.log(userId)
 
   const [watchStatus, setWatchStatus] = useState({
     isWatching: false,

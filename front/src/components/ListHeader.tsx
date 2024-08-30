@@ -9,8 +9,7 @@ export const ListHeader = () => {
 
   return (
     <>
-      <div>#ListHeader</div>
-      <button onClick={handleBackToHome}>戻る</button>
+      <button onClick={handleBackToHome}>戻る</button><br />
     </>
   );
 };
