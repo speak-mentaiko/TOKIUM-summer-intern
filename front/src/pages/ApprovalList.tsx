@@ -28,7 +28,7 @@ export const ApprovalList = () => {
   } else {
     return (
       <>
-        <div className={"flex justify-center m-10"}>
+        <div className={"flex flex-col items-center m-20"}>
           {requestList.map((cost: cost) => {
             return <ApprovalCard {...cost} />;
           })}

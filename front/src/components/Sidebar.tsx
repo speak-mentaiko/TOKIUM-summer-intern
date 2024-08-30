@@ -24,7 +24,7 @@ export const Sidebar = () => {
         <div
           className={`${
             isSidebarOpen ? "" : "ml-minus-256"
-          } bg-gray-900 p-20 duration-300 z-50 absolute top-88 left-0 bottom-0 right-176 bg-gray-700 text-white`}
+          } p-20 duration-300 z-50 absolute top-88 left-0 bottom-0 right-176 bg-pink-100`}
         >
           <NavigationItem Icon={AiOutlineHome} to={"/home"} name={"HOME"} />
           <NavigationItem
@@ -56,7 +56,7 @@ export const Sidebar = () => {
         <div
           className={`${
             isSidebarOpen ? "" : "ml-minus-256"
-          } bg-gray-900 p-20 duration-300 z-50 absolute top-88 left-0 bottom-0 right-176 bg-gray-700 text-white`}
+          } p-20 duration-300 z-50 absolute top-88 left-0 bottom-0 right-176 bg-pink-100`}
         >
           <NavigationItem Icon={AiOutlineHome} to={"/home"} name={"HOME"} />
           <NavigationItem

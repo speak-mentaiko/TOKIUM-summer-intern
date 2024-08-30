@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 
 import { ApplicationCard } from "../components/ApplicationCard.tsx";
+import { ListHeader } from "../components/ListHeader.tsx";
 import { userState } from "../hooks/userState.ts";
 
 type cost = {
@@ -14,7 +15,7 @@ type cost = {
 export const ApplicationListPage = () => {
   const API_BASE_URL = "http://localhost:3000";
   const userId = useRecoilValue(userState);
-  console.log(userId);
+  // console.log(userId);
 
   const [costList, setCostList] = useState<cost[]>([]);
   //APIでデータを取得
@@ -36,14 +37,16 @@ export const ApplicationListPage = () => {
   if (!costList.length) {
     return (
       <>
+        <ListHeader />
         <p>データがありません</p>
       </>
     );
   } else {
     return (
       <>
+        <ListHeader />
         {costList.map((cost: cost) => {
-          return <ApplicationCard application={cost} />;
+          return <><ApplicationCard application={cost} /><br /></>;
         })}
       </>
     );
