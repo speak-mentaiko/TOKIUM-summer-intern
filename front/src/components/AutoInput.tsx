@@ -16,17 +16,15 @@ export const AutoInput = () => {
 
   return (
     <>
-
-      <div >#AutoInput</div>
+      <div>#AutoInput</div>
       {showStartStopButtonStatus ? (
-          <div className={"items-center"}>
-        <StartStopButton onStopClick={handleStopClick}  />
-          </div>
+        <div className={"items-center"}>
+          <StartStopButton onStopClick={handleStopClick} />
+        </div>
       ) : (
-          <div className={"items-center"}>
-        <SummaryForAutoInput onStartClick={handleStartClick} />
-          </div>
-
+        <div className={"items-center"}>
+          <SummaryForAutoInput onStartClick={handleStartClick} />
+        </div>
       )}
     </>
   );
