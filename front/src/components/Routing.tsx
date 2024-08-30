@@ -13,6 +13,7 @@ import { ApprovalList } from "../pages/ApprovalList.tsx";
 import { Signout } from "../pages/Signout.tsx";
 import { userState } from "../hooks/userState.ts";
 import { Approval } from "../pages/Approval.tsx";
+import { Footer } from "./Footer.tsx";
 
 export const Routing = () => {
   const userId = useRecoilValue(userState);
@@ -40,6 +41,7 @@ export const Routing = () => {
           <Route path="/signout" element={<Signout />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
+        <Footer />
       </>
     );
   } else if (userId.part === "pub") {
@@ -62,6 +64,7 @@ export const Routing = () => {
           <Route path="/signout" element={<Signout />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
+        <Footer />
       </>
     );
   } else {
@@ -72,6 +75,7 @@ export const Routing = () => {
           <Route path="/signout" element={<Signout />} />
           <Route path="*" element={<Page404 />} />
         </Routes>
+        <Footer />
       </>
     );
   }

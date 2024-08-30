@@ -1,0 +1,71 @@
+.button {
+    width: 100%;
+    color: #ffffff;
+    background-color: #2563eb; /* This corresponds to primary-600 */
+    font-weight: 500; /* font-medium */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-size: 0.875rem; /* text-sm */
+    padding: 0.625rem 1.25rem; /* px-5 py-2.5 */
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+.button:hover {
+    background-color: #1d4ed8; /* This corresponds to primary-700 */
+}
+
+.button:focus {
+    outline: 0;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); /* This corresponds to focus:ring-4 and focus:ring-primary-300 */
+}
+
+.button.dark {
+    background-color: #2563eb; /* dark:bg-primary-600 */
+}
+
+.button.dark:hover {
+    background-color: #1d4ed8; /* dark:hover:bg-primary-700 */
+}
+
+.button.dark:focus {
+    box-shadow: 0 0 0 4px rgba(30, 58, 138, 0.5); /* dark:focus:ring-primary-800 */
+}
+
+.div_input{
+
+        display: block;          /* block */
+        margin-bottom: 0.5rem;   /* mb-2 */
+        font-size: 0.875rem;     /* text-sm */
+        font-weight: 500;        /* font-medium */
+        color: #111827;          /* text-gray-900 */
+}
+.input {
+    background-color: #f9fafb;       /* bg-gray-50 */
+    border: 1px solid #d1d5db;       /* border and border-gray-300 */
+    color: #111827;                  /* text-gray-900 */
+    border-radius: 0.5rem;           /* rounded-lg */
+    display: block;                  /* block */
+    width: 100%;                     /* w-full */
+    padding: 0.625rem;               /* p-2.5 */
+    outline: none;                   /* remove default outline */
+}
+
+.input:focus {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.5); /* focus:ring-primary-600 */
+    border-color: #2563eb;          /* focus:border-primary-600 */
+}
+
+.input.dark {
+    background-color: #374151;       /* dark:bg-gray-700 */
+    border-color: #4b5563;           /* dark:border-gray-600 */
+    color: #ffffff;                  /* dark:text-white */
+}
+
+.input.dark::placeholder {
+    color: #9ca3af;                  /* dark:placeholder-gray-400 */
+}
+
+.input.dark:focus {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5); /* dark:focus:ring-blue-500 */
+    border-color: #3b82f6;          /* dark:focus:border-blue-500 */
+}
